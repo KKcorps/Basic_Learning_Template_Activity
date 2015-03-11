@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@android:style/Holo.ButtonBar.AlertDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".BasicLearningActivity">
+
+    <TextView
+        android:text="Basic Learning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:textSize="12pt" />
+
+    <com.mobeta.android.dslv.DragSortListView
+        android:id="@+id/dragsortlistview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        dslv:fling_handle_id="@+id/remove_handle"
+        dslv:drag_handle_id="@+id/drag_handle">
+
+    </com.mobeta.android.dslv.DragSortListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/addItem"
+        android:text="Add Item"
+        android:layout_weight="1"/>
+
+
+</LinearLayout>
