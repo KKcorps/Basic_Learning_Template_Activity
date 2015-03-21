@@ -4,10 +4,9 @@ package com.kkcorps.bmltoolkitandroid;
  * Created by root on 9/3/15.
  */
 public class BasicLearningItem {
-    private String Title, Description, Author, CollectionTitle;
-    private int NumberOfItems;
+    private String Title, Description, Author, CollectionTitle, NumberOfItems;
 
-    public BasicLearningItem(String title, String description, String author, String collectionTitle, int numberOfItems){
+    public BasicLearningItem(String title, String description, String author, String collectionTitle, String numberOfItems){
         Title = title;
         Description = description;
         Author = author;
@@ -15,7 +14,7 @@ public class BasicLearningItem {
         NumberOfItems = numberOfItems;
     }
 
-    private String getTitle(){
+    public String getTitle(){
         if(Title!=null || (!Title.isEmpty()) ){
             return Title;
         }else{
@@ -23,7 +22,7 @@ public class BasicLearningItem {
         }
     }
 
-    private String getDescription(){
+    public String getDescription(){
         if(Description!=null || (!Description.isEmpty()) ){
             return Description;
         }else{
@@ -31,7 +30,7 @@ public class BasicLearningItem {
         }
     }
 
-    private String getAuthor(){
+    public String getAuthor(){
         if(Author!=null || (!Author.isEmpty()) ){
             return Author;
         }else{
@@ -39,7 +38,7 @@ public class BasicLearningItem {
         }
     }
 
-    private String getCollectionTitle(){
+    public String getCollectionTitle(){
         if(CollectionTitle!=null || (!CollectionTitle.isEmpty()) ){
             return CollectionTitle;
         }else{
@@ -47,7 +46,11 @@ public class BasicLearningItem {
         }
     }
 
-    private int getNumberOfItems(){
-        return NumberOfItems;
+    public String getNumberOfItems(){
+        if(NumberOfItems!=null || (!NumberOfItems.isEmpty()) ){
+            return NumberOfItems;
+        }else{
+            return "";
+        }
     }
 }

@@ -1,8 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".BasicLearningActivity" >
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        app:showAsAction="collapseActionView" />
+    <item android:id="@+id/generateApk"
+        android:title="Generate Signed APK"
+        android:icon="@drawable/android_os"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/uploadToStore"
+        android:title="Upload to BuildmLearn Store"
+        android:icon="@drawable/upload"
+        app:showAsAction="ifRoom"/>
 </menu>
