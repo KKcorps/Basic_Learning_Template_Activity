@@ -5,13 +5,15 @@
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/generateApk"
         android:title="Generate Signed APK"
         android:icon="@drawable/android_os"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="10"
+        app:showAsAction="always"/>
     <item android:id="@+id/uploadToStore"
         android:title="Upload to BuildmLearn Store"
         android:icon="@drawable/upload"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="30"
+        app:showAsAction="always"/>
 </menu>

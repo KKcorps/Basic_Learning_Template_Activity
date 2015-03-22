@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonRectangle;
+
 /**
  * Created by root on 8/3/15.
  */
 public class BasicLearningForm extends ActionBarActivity {
     public static EditText titleTextView, descriptionTextView, authorTextView, collectionTitleTextView, numberOfItemsTextView;
-    public static Button okButton;
+    public static ButtonRectangle okButton;
     public int REQUEST_CODE = 101;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class BasicLearningForm extends ActionBarActivity {
             numberOfItemsTextView.setText(clickedItem.getNumberOfItems());
 
         }
-        okButton = (Button) findViewById(R.id.ok_button);
+        okButton = (ButtonRectangle) findViewById(R.id.ok_button);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

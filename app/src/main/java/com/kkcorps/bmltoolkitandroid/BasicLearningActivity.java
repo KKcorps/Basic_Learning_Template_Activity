@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,10 +19,12 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.mobeta.android.dslv.DragSortItemView;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +42,7 @@ public class BasicLearningActivity extends ActionBarActivity {
     private List<BasicLearningItem> itemsArray = new ArrayList<BasicLearningItem>(GlobalModelCollection.globalCollectionList);
     private MatrixCursor matrixCursor;
     private SimpleDragSortCursorAdapter cursorAdapter;
-    private Button addItem;
+    private ButtonRectangle addItem, runSimulator;
     private int clickIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,8 @@ public class BasicLearningActivity extends ActionBarActivity {
         getSupportActionBar().setTitle("Basic Learning Items");
         dragSortListView = (DragSortListView) findViewById(R.id.dragsortlistview);
         TextView textView = (TextView) findViewById(R.id.dsitem);
-        addItem = (Button) findViewById(R.id.addItem);
+        addItem = (ButtonRectangle) findViewById(R.id.addItem);
+        runSimulator = (ButtonRectangle) findViewById(R.id.runItem);
 
         DSAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.drag_sort_itemwhandle, places);
         matrixCursor = new MatrixCursor(new String[]{"_id","placeTitle"});
@@ -108,6 +112,17 @@ public class BasicLearningActivity extends ActionBarActivity {
                 startActivityForResult(intent, Constants.ADD_REQUEST_CODE);
             }
         });
+
+        runSimulator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningSimulator.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
     @Override
@@ -125,7 +140,7 @@ public class BasicLearningActivity extends ActionBarActivity {
                 Log.i("BasicLearningActivity", "Global collection size:" + String.valueOf(GlobalModelCollection.globalCollectionList.size()));
                 refreshList();
             } else if(requestCode == Constants.EDIT_REQUEST_CODE){
-                itemsArray.set(clickIndex,basicLearningItem);
+                itemsArray.set(clickIndex, basicLearningItem);
                 GlobalModelCollection.globalCollectionList.set(clickIndex, basicLearningItem);
                 refreshList();
             }

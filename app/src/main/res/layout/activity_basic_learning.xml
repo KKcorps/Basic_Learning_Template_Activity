@@ -9,8 +9,6 @@
     android:id="@+id/WrapperView"
     tools:context=".BasicLearningActivity">
 
-
-
     <com.mobeta.android.dslv.DragSortListView
         android:id="@+id/dragsortlistview"
         android:layout_width="match_parent"
@@ -20,11 +18,11 @@
         dslv:remove_enabled="true"
         dslv:drag_handle_id="@+id/drag_handle"
         android:layout_above="@+id/buttonBar"
-
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
     </com.mobeta.android.dslv.DragSortListView>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -32,7 +30,8 @@
         android:layout_height="55dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true">
-    <Button
+
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_weight="0.5"
@@ -42,17 +41,19 @@
         android:paddingStart="10dp"
         android:id="@+id/addItem"
         android:text="Add Item"/>
-    <Button
+
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_weight="0.5"
-        android:layout_marginStart="2dp"
-        android:background="#009999"
         android:textColor="#ffffff"
+        android:elevation="10dp"
+        android:background="#009999"
         android:drawableStart="@drawable/play"
         android:paddingStart="10dp"
         android:id="@+id/runItem"
-        android:text="Run" />
+        android:text="Run"
+        android:layout_marginBottom="0dp" />
 
     </LinearLayout>
 
