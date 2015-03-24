@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
 
         <item name="colorPrimary">@color/primary</item>
@@ -9,7 +9,21 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/accent</item>
+    </style>
 
+    <style name="MyToolbarPopupStyle" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <!-- Used to for the title of the Toolbar -->
+        <item name="android:textColorPrimary">#333</item>
+        <!-- Used to for the title of the Toolbar when parent is Theme.AppCompat.Light -->
+        <item name="android:textColorPrimaryInverse">#333</item>
+        <!-- Used to color the text of the action menu icons -->
+        <item name="android:textColorSecondary">#333</item>
+        <!-- Used to color the overflow menu icon -->
+        <item name="actionMenuTextColor">#333</item>
+        <!-- Color of the Toolbar -->
+        <item name="background">@drawable/dslv</item>
     </style>
 
 </resources>

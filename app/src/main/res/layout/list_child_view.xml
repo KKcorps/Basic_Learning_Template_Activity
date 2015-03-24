@@ -2,10 +2,10 @@
 
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent" android:layout_height="50dp"
     android:textSize="18dp"
-    android:drawableRight="@android:drawable/arrow_down_float"
-    android:background="#55009999"
+    android:drawableRight="@drawable/ic_hardware_keyboard_arrow_down"
+    android:background="#22009999"
     android:textColor="#222222"
     android:padding="12dp"
     android:layout_marginTop="2dp"

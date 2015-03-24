@@ -47,8 +47,13 @@ public class BasicLearningActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_basic_learning);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setTitle("Basic Learning Items");
+
         dragSortListView = (DragSortListView) findViewById(R.id.dragsortlistview);
         TextView textView = (TextView) findViewById(R.id.dsitem);
         addItem = (ButtonRectangle) findViewById(R.id.addItem);
@@ -116,7 +121,7 @@ public class BasicLearningActivity extends ActionBarActivity {
         runSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningSimulator.class);
+                Intent intent = new Intent(BasicLearningActivity.this,CardViewActivity.class);
                 startActivity(intent);
             }
         });
