@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.mobeta.android.dslv.DragSortItemView;
@@ -25,9 +26,14 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import kellinwood.security.zipsigner.ZipSigner;
 
 
 public class BasicLearningActivity extends ActionBarActivity {
@@ -126,10 +132,40 @@ public class BasicLearningActivity extends ActionBarActivity {
             }
         });
 
+        try {
 
+            ZipSigner zipSigner = new ZipSigner();
+            URL publicKeyUrl = new URL("file:///mnt/external_sd/bmb/certificate.pem");
+            URL privateKeyUrl = new URL("file:///mnt/external_sd/bmb/key.pk8");
+            X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
+            PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
+            zipSigner.setKeys("KKcorps",certificate,privateKey,null);
+            zipSigner.setKeymode("testkey");
+            zipSigner.signZip("/mnt/external_sd/bmb/QuizTemplateApp.apk", "/mnt/external_sd/bmb/QuizTemplateAppSigned3.apk");
+
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
 
     }
-
+    //Signed Apk working properly
+    //template apk file and certs have to be copied to /mnt/external_sd/bmb/ directory
+    private void SignApk(){
+        try {
+            ZipSigner zipSigner = new ZipSigner();
+            URL publicKeyUrl = new URL("file:///mnt/external_sd/bmb/certificate.pem");
+            URL privateKeyUrl = new URL("file:///mnt/external_sd/bmb/key.pk8");
+            X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
+            PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
+            zipSigner.setKeys("KKcorps",certificate,privateKey,null);
+            zipSigner.setKeymode("testkey");
+            zipSigner.signZip("/mnt/external_sd/bmb/QuizTemplateApp.apk", "/mnt/external_sd/bmb/QuizTemplateAppSigned.apk");
+            Toast.makeText(this, "Signed apk generated at /mnt/external_sd/bmb/QuizTemplateAppSigned.apk",Toast.LENGTH_SHORT).show();
+        }catch (Throwable e){
+            Toast.makeText(this, "Apk not Signed Properly",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,8 +212,13 @@ public class BasicLearningActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.generateApk:
+                //only signed apk implemented, data files have not been inserted
+                SignApk();
+                break;
+            default:
+                Log.i("BasicLearningActivity","Unknown Item Clicked");
         }
         return super.onOptionsItemSelected(item);
     }

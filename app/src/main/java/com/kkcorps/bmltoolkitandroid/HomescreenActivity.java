@@ -20,9 +20,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
+import kellinwood.security.zipsigner.ZipSigner;
+import kellinwood.logging.LoggerManager;
+import kellinwood.logging.android.AndroidLogger;
+import kellinwood.logging.android.AndroidLoggerFactory;
 /**
  * Created by root on 22/3/15.
  */
@@ -47,37 +53,26 @@ public class HomescreenActivity extends ActionBarActivity implements View.OnTouc
         });
 
 
-    }
-
-    public void a(Context ctx, File orgJar) {
+        /*
         try {
-            // create a tmp dir for extract content in unsigend.jar
-            final File dir = ctx.getDir("tmp", Context.MODE_PRIVATE);
-            InputStream in = ctx.getAssets().open("unsigned.apk");
-            // do extract to tmp dir
-            extract(in, dir);
-            in.close();
-            File distFile = ctx.getFileStreamPath("signed.apk");
-            FileOutputStream fos = new FileOutputStream(distFile);
-            // do sign
-            TinySign.sign(dir, fos);
-            fos.close();
+            //Process p = Runtime.getRuntime().exec("export ANDROID_DATA=/sdcard");
+
+            String[] cmds = new String[]{"export ANDROID_DATA=/sdcard/dalvik-cache","bash -c 'echo ANDROID_DATA' "};
+            Process p = Runtime.getRuntime().exec(cmds);
+            BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            StringBuilder total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line);
+            }
+            Log.i("Home",total.toString());
+            Log.i("Random",System.getenv("ANDROID_DATA"));
         }catch (Exception e){
-            e.printStackTrace();
-        }
+            Log.i("Home","Error: "+e.toString());
+        }*/
+
     }
 
-    public static void extract(InputStream in, File dir) throws IOException {
-        ZipInputStream zis = new ZipInputStream(in);
-        for (ZipEntry e = zis.getNextEntry(); e != null; e = zis.getNextEntry()) {
-            String name = e.getName();
-            if (!e.isDirectory()) {
-                FileOutputStream fos = new FileOutputStream(dir+"\\"+name);
-                TinySign.copy(zis, fos);
-                fos.close();
-            }
-        }
-    }
 
     @Override
     public void onClick(View view) {
