@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.kkcorps.bmltoolkitandroid.ApkParser.BasicLearningGenerator;
 import com.mobeta.android.dslv.DragSortItemView;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
@@ -214,6 +215,8 @@ public class BasicLearningActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.generateApk:
+                //generateXMLData
+                BasicLearningGenerator.writeXML("info_content.xml");
                 //only signed apk implemented, data files have not been inserted
                 SignApk();
                 break;

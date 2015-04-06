@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,10 +71,17 @@ public class CardViewActivity extends ActionBarActivity{
         rlIcon3.setImageDrawable(getResources().getDrawable(R.drawable.film));
         rlIcon4.setImageDrawable(getResources().getDrawable(R.drawable.undo));
 
+        SubActionButton rlIcon1Button = rLSubBuilder.setContentView(rlIcon1).build();
+        rlIcon1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Sim","Clicked");
+            }
+        });
         // Build the menu with default options: light theme, 90 degrees, 72dp radius.
         // Set 4 default SubActionButtons
         final FloatingActionMenu rightLowerMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon1).build())
+                .addSubActionView(rlIcon1Button)
                 .addSubActionView(rLSubBuilder.setContentView(rlIcon2).build())
                 .addSubActionView(rLSubBuilder.setContentView(rlIcon3).build())
                 .addSubActionView(rLSubBuilder.setContentView(rlIcon4).build())

@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -26,6 +29,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
  */
 public class BasicLearningSimulator extends ActionBarActivity{
 
+    FloatingActionMenu rightLowerMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class BasicLearningSimulator extends ActionBarActivity{
                 .setBackgroundDrawable(R.drawable.button_action_main)
                 .build();
 
+
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
         rLSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_subaction));
 
@@ -63,15 +68,30 @@ public class BasicLearningSimulator extends ActionBarActivity{
         rlIcon3.setImageDrawable(getResources().getDrawable(R.drawable.film));
         rlIcon4.setImageDrawable(getResources().getDrawable(R.drawable.undo));
 
+        rlIcon4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Sim","Clicked");
+            }
+        });
+
+        SubActionButton rlIcon1Button = rLSubBuilder.setContentView(null).build();
+
+        rlIcon1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Sim","Clicked2");
+            }
+        });
         // Build the menu with default options: light theme, 90 degrees, 72dp radius.
         // Set 4 default SubActionButtons
-        final FloatingActionMenu rightLowerMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon1).build())
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon2).build())
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon3).build())
-                .addSubActionView(rLSubBuilder.setContentView(rlIcon4).build())
+        rightLowerMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(rlIcon1Button)
                 .attachTo(rightLowerButton)
                 .build();
+
+
+
 
         // Listen menu open and close events to animate the button content view
         rightLowerMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
@@ -95,6 +115,7 @@ public class BasicLearningSimulator extends ActionBarActivity{
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
