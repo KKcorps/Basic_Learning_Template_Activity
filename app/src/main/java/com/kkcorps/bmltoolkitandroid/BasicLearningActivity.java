@@ -1,6 +1,7 @@
 package com.kkcorps.bmltoolkitandroid;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.mobeta.android.dslv.DragSortItemView;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.security.PrivateKey;
@@ -33,8 +35,13 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import kellinwood.security.zipsigner.ZipSigner;
+import kellinwood.zipio.ZioEntry;
+import kellinwood.zipio.ZipInput;
+import kellinwood.zipio.ZipOutput;
 
 
 public class BasicLearningActivity extends ActionBarActivity {
@@ -133,20 +140,7 @@ public class BasicLearningActivity extends ActionBarActivity {
             }
         });
 
-        try {
 
-            ZipSigner zipSigner = new ZipSigner();
-            URL publicKeyUrl = new URL("file:///mnt/external_sd/bmb/certificate.pem");
-            URL privateKeyUrl = new URL("file:///mnt/external_sd/bmb/key.pk8");
-            X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
-            PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
-            zipSigner.setKeys("KKcorps",certificate,privateKey,null);
-            zipSigner.setKeymode("testkey");
-            zipSigner.signZip("/mnt/external_sd/bmb/QuizTemplateApp.apk", "/mnt/external_sd/bmb/QuizTemplateAppSigned3.apk");
-
-        }catch (Throwable e){
-            e.printStackTrace();
-        }
 
     }
     //Signed Apk working properly
@@ -154,16 +148,17 @@ public class BasicLearningActivity extends ActionBarActivity {
     private void SignApk(){
         try {
             ZipSigner zipSigner = new ZipSigner();
-            URL publicKeyUrl = new URL("file:///mnt/external_sd/bmb/certificate.pem");
-            URL privateKeyUrl = new URL("file:///mnt/external_sd/bmb/key.pk8");
+            URL publicKeyUrl = new URL("file://"+Constants.DATA_BASE_DIRECTORY+"certificate.pem");
+            URL privateKeyUrl = new URL("file://"+Constants.DATA_BASE_DIRECTORY+"key.pk8");
             X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
             PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
             zipSigner.setKeys("KKcorps",certificate,privateKey,null);
             zipSigner.setKeymode("testkey");
-            zipSigner.signZip("/mnt/external_sd/bmb/QuizTemplateApp.apk", "/mnt/external_sd/bmb/QuizTemplateAppSigned.apk");
-            Toast.makeText(this, "Signed apk generated at /mnt/external_sd/bmb/QuizTemplateAppSigned.apk",Toast.LENGTH_SHORT).show();
+            zipSigner.signZip(Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppTemp.apk", Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppSigned.apk");
+            Toast.makeText(this, "Signed apk generated at"+ Constants.DATA_BASE_DIRECTORY+ "InfoTemplateAppSigned.apk",Toast.LENGTH_SHORT).show();
         }catch (Throwable e){
             Toast.makeText(this, "Apk not Signed Properly",Toast.LENGTH_SHORT).show();
+            
             e.printStackTrace();
         }
     }
@@ -216,9 +211,29 @@ public class BasicLearningActivity extends ActionBarActivity {
         switch (id){
             case R.id.generateApk:
                 //generateXMLData
-                BasicLearningGenerator.writeXML("info_content.xml");
+
+                try {
+                    BasicLearningGenerator.writeXML("info_content.xml");
+                    //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
+                    ZipInput zipInput = ZipInput.read(Constants.DATA_BASE_DIRECTORY+"InfoTemplateApp.apk");
+
+                    ZioEntry zioEntry = new ZioEntry("/assets/info_content.xml",Constants.DATA_BASE_DIRECTORY+"/assets/info_content.xml");
+                    FileOutputStream outputStream = new FileOutputStream(Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppTemp.apk");
+                    ZipOutput zipOutput =  new ZipOutput(outputStream);
+                    for(ZioEntry entry : zipInput.getEntries().values()){
+                        zipOutput.write(entry);
+                        Log.i("zipFiles",entry.getName());
+                    }
+                    zipOutput.write(zioEntry);
+                    zipOutput.close();
+                    //zipOutput.write(zioEntry);
+                    SignApk();
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                }
                 //only signed apk implemented, data files have not been inserted
-                SignApk();
+
                 break;
             default:
                 Log.i("BasicLearningActivity","Unknown Item Clicked");

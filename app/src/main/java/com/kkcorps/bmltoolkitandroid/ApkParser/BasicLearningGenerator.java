@@ -74,7 +74,7 @@ public class BasicLearningGenerator {
 
     private static void writeToFile(String data, String fileName) {
         try {
-            File xmlFile = new File("/mnt/external_sd/bmb/"+fileName);
+            File xmlFile = new File("/mnt/external_sd/bmb/assets/"+fileName);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(xmlFile));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
