@@ -34,7 +34,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoHolder>{
     public InfoHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.cardlist, viewGroup, false);
+                inflate(R.layout.basic_simulator_card, viewGroup, false);
 
         return new InfoHolder(itemView);
     }

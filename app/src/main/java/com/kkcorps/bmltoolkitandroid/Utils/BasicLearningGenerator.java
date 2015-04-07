@@ -1,10 +1,10 @@
-package com.kkcorps.bmltoolkitandroid.ApkParser;
+package com.kkcorps.bmltoolkitandroid.Utils;
 
-import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
 
 import com.kkcorps.bmltoolkitandroid.BasicLearningItem;
+import com.kkcorps.bmltoolkitandroid.Constants;
 import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
 
 import org.xmlpull.v1.XmlSerializer;
@@ -74,7 +74,10 @@ public class BasicLearningGenerator {
 
     private static void writeToFile(String data, String fileName) {
         try {
-            File xmlFile = new File("/mnt/external_sd/bmb/assets/"+fileName);
+            File xmlFile2 = new File(Constants.DATA_BASE_DIRECTORY+"/assets/");
+            xmlFile2.mkdir();
+            File xmlFile = new File(Constants.DATA_BASE_DIRECTORY+"/assets/",fileName);
+
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(xmlFile));
             outputStreamWriter.write(data);
             outputStreamWriter.close();

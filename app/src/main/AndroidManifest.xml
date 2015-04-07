@@ -6,11 +6,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="BuildmLearn"
+        android:icon="@drawable/buildmlearn_toolkit"
+        android:label="BuildmLearn Droid"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".CardViewActivity"
+            android:name=".BasicLearningSimulatorCard"
             android:label="Home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
 
         <activity
             android:name=".HomescreenActivity"
-            android:label="Home" >
+            android:label="BuildmLearn Droid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BasicLearningSimulator"
+            android:name=".BasicLearningSimulatorList"
             android:label="mLearning Simulator" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

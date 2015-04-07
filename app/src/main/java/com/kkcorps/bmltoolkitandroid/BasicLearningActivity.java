@@ -1,42 +1,34 @@
 package com.kkcorps.bmltoolkitandroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.kkcorps.bmltoolkitandroid.ApkParser.BasicLearningGenerator;
-import com.mobeta.android.dslv.DragSortItemView;
+import com.kkcorps.bmltoolkitandroid.Utils.BasicLearningGenerator;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
+import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
+import java.io.InputStream;
 import java.net.URL;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import kellinwood.security.zipsigner.ZipSigner;
 import kellinwood.zipio.ZioEntry;
@@ -58,6 +50,7 @@ public class BasicLearningActivity extends ActionBarActivity {
     private SimpleDragSortCursorAdapter cursorAdapter;
     private ButtonRectangle addItem, runSimulator;
     private int clickIndex;
+    private String TempAPkName = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +66,14 @@ public class BasicLearningActivity extends ActionBarActivity {
         addItem = (ButtonRectangle) findViewById(R.id.addItem);
         runSimulator = (ButtonRectangle) findViewById(R.id.runItem);
 
-        DSAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.drag_sort_itemwhandle, places);
+        DSAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.drag_sort_item_with_handle, places);
         matrixCursor = new MatrixCursor(new String[]{"_id","placeTitle"});
         for (int i = 0; i < itemsArray.size(); i++) {
             matrixCursor.newRow()
                     .add(i)
                     .add(itemsArray.get(i).getTitle());
         }
-        cursorAdapter = new SimpleDragSortCursorAdapter(getApplicationContext(),R.layout.drag_sort_itemwhandle,matrixCursor,new String[]{"placeTitle"},new int[]{R.id.text},0);
+        cursorAdapter = new SimpleDragSortCursorAdapter(getApplicationContext(),R.layout.drag_sort_item_with_handle,matrixCursor,new String[]{"placeTitle"},new int[]{R.id.text},0);
         dragSortListener = new DragSortListView.DragSortListener() {
             @Override
             public void drag(int i, int i2) {
@@ -135,7 +128,7 @@ public class BasicLearningActivity extends ActionBarActivity {
         runSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BasicLearningActivity.this,CardViewActivity.class);
+                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningSimulatorCard.class);
                 startActivity(intent);
             }
         });
@@ -148,19 +141,49 @@ public class BasicLearningActivity extends ActionBarActivity {
     private void SignApk(){
         try {
             ZipSigner zipSigner = new ZipSigner();
-            URL publicKeyUrl = new URL("file://"+Constants.DATA_BASE_DIRECTORY+"certificate.pem");
-            URL privateKeyUrl = new URL("file://"+Constants.DATA_BASE_DIRECTORY+"key.pk8");
+
+            URL publicKeyUrl = UrlFromFile(copyFileFromAsset("keys/" ,Constants.CERT_NAME));
+            URL privateKeyUrl = UrlFromFile(copyFileFromAsset("keys/",Constants.KEY_NAME));
+
             X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
             PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
             zipSigner.setKeys("KKcorps",certificate,privateKey,null);
             zipSigner.setKeymode("testkey");
-            zipSigner.signZip(Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppTemp.apk", Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppSigned.apk");
+            zipSigner.signZip(getCacheDir()+"/InfoTemplateAppTemp.apk", Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppSigned.apk");
             Toast.makeText(this, "Signed apk generated at"+ Constants.DATA_BASE_DIRECTORY+ "InfoTemplateAppSigned.apk",Toast.LENGTH_SHORT).show();
         }catch (Throwable e){
             Toast.makeText(this, "Apk not Signed Properly",Toast.LENGTH_SHORT).show();
             
             e.printStackTrace();
         }
+    }
+
+    private File copyFileFromAsset(String assetPath, String FileName){
+        try {
+            File directory = new File(getCacheDir(),"/"+assetPath);
+            directory.mkdir();
+            File f = new File(getCacheDir()+"/"+assetPath,FileName);
+            InputStream is = getAssets().open(assetPath+FileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f;
+        } catch (Exception e) { throw new RuntimeException(e); }
+    }
+
+    private URL UrlFromFile(File f){
+        URL url = null;
+        try {
+            url = new URL("file://" + f.getAbsolutePath());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return url;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,10 +238,11 @@ public class BasicLearningActivity extends ActionBarActivity {
                 try {
                     BasicLearningGenerator.writeXML("info_content.xml");
                     //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
-                    ZipInput zipInput = ZipInput.read(Constants.DATA_BASE_DIRECTORY+"InfoTemplateApp.apk");
+                    File f = copyFileFromAsset("Apks/","InfoTemplateApp.apk");
+                    ZipInput zipInput = ZipInput.read(f.getAbsolutePath());
 
-                    ZioEntry zioEntry = new ZioEntry("/assets/info_content.xml",Constants.DATA_BASE_DIRECTORY+"/assets/info_content.xml");
-                    FileOutputStream outputStream = new FileOutputStream(Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppTemp.apk");
+                    ZioEntry zioEntry = new ZioEntry("/assets/info_content.xml",Constants.DATA_BASE_DIRECTORY+"assets/info_content.xml");
+                    FileOutputStream outputStream = new FileOutputStream(getCacheDir()+"/InfoTemplateAppTemp.apk");
                     ZipOutput zipOutput =  new ZipOutput(outputStream);
                     for(ZioEntry entry : zipInput.getEntries().values()){
                         zipOutput.write(entry);

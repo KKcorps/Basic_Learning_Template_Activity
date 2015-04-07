@@ -1,52 +1,42 @@
 package com.kkcorps.bmltoolkitandroid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import java.io.BufferedReader;
+import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import kellinwood.security.zipsigner.ZipSigner;
-import kellinwood.logging.LoggerManager;
-import kellinwood.logging.android.AndroidLogger;
-import kellinwood.logging.android.AndroidLoggerFactory;
+
 /**
  * Created by root on 22/3/15.
  */
-public class HomescreenActivity extends ActionBarActivity implements View.OnTouchListener, View.OnClickListener{
+public class HomescreenActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_wdrawer);
+        setContentView(R.layout.activity_home_screen_with_drawer);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         toolbar.setBackground(getResources().getDrawable(R.drawable.action_bar_home));
         toolbar.setTitle("HomeScreen");
         setSupportActionBar(toolbar);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.loadProject);
+        //create buildmLearn Directory in Sdcard for storing Apks
+        File f = new File(Constants.DATA_BASE_DIRECTORY);
+        f.mkdir();
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.startProject);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                XmlParser.readXML("assets/info_content.xml");
                 Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
                 startActivity(intent);
             }
@@ -73,36 +63,6 @@ public class HomescreenActivity extends ActionBarActivity implements View.OnTouc
 
     }
 
-
-    @Override
-    public void onClick(View view) {
-        Log.i("HomeScreen", "Unknown View clicked oustide");
-
-        switch (view.getId()){
-            case R.id.loadProject:
-                    Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
-                    startActivity(intent);
-            default:
-                Log.i("HomeScreen", "Unknown View clicked");
-        }
-    }
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        Log.i("HomeScreen", "Unknown View clicked oustide");
-
-        switch (view.getId()){
-            case R.id.loadProject:
-                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN) {
-                    Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-            default:
-                Log.i("HomeScreen", "Unknown View clicked");
-        }
-        return false;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -51,6 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingLeft="20dp"
+        android:id="@+id/startProject"
+        android:clickable="true"
         android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
@@ -75,6 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingLeft="20dp"
+        android:id="@+id/recentProject"
+        android:clickable="true"
         android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
@@ -98,6 +102,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingLeft="20dp"
+        android:id="@+id/goToStore"
+        android:clickable="true"
         android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
@@ -121,6 +127,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingLeft="20dp"
+        android:id="@+id/help"
+        android:clickable="true"
         android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
