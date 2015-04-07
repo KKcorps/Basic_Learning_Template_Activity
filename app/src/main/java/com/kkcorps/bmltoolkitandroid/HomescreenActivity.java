@@ -36,7 +36,7 @@ public class HomescreenActivity extends ActionBarActivity{
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                XmlParser.readXML("assets/info_content.xml");
+                //XmlParser.readXML("assets/info_content.xml");
                 Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
                 startActivity(intent);
             }
