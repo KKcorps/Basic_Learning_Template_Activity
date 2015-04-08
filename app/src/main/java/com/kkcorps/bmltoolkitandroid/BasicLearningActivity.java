@@ -259,6 +259,10 @@ public class BasicLearningActivity extends ActionBarActivity {
                 //only signed apk implemented, data files have not been inserted
 
                 break;
+
+            case R.id.action_save:
+                BasicLearningGenerator.writeXML("InfoTemplateTestProject.xml");
+                Toast.makeText(this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"/assets/InfoTemplateTestProject.xml",Toast.LENGTH_SHORT).show();
             default:
                 Log.i("BasicLearningActivity","Unknown Item Clicked");
         }
