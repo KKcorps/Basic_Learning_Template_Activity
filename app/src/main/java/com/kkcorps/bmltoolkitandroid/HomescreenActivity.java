@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by root on 22/3/15.
@@ -32,8 +34,19 @@ public class HomescreenActivity extends ActionBarActivity{
         File f = new File(Constants.DATA_BASE_DIRECTORY);
         f.mkdir();
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.startProject);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.loadProject);
         linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //XmlParser.readXML("assets/info_content.xml");
+                loadProject("InfoTemplateTestProject.xml");
+                Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout startProjectlinearLayout = (LinearLayout) findViewById(R.id.startProject);
+        startProjectlinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
@@ -63,6 +76,16 @@ public class HomescreenActivity extends ActionBarActivity{
 
     }
 
+    private void loadProject(String ProjectName){
+        try{
+            //File projectFile = new File(getFilesDir()+"/"+ProjectName);
+            XmlParser.readXML(Constants.DATA_BASE_DIRECTORY+"/assets/"+ProjectName);
+
+        }catch (RuntimeException f){
+            Toast.makeText(this,"No Projects Found in "+Constants.DATA_BASE_DIRECTORY+"/assets/",Toast.LENGTH_SHORT).show();
+            f.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
