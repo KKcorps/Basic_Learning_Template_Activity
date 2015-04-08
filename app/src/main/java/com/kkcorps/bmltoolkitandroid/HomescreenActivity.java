@@ -1,10 +1,14 @@
 package com.kkcorps.bmltoolkitandroid;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,6 +24,8 @@ import java.io.IOException;
  * Created by root on 22/3/15.
  */
 public class HomescreenActivity extends ActionBarActivity{
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle drawerToggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,9 @@ public class HomescreenActivity extends ActionBarActivity{
         toolbar.setTitle("HomeScreen");
         setSupportActionBar(toolbar);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.home_drawer);
+        drawerToggle = new ActionBarDrawerToggle(HomescreenActivity.this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
+        drawerLayout.setDrawerListener(drawerToggle);
         //create buildmLearn Directory in Sdcard for storing Apks
         File f = new File(Constants.DATA_BASE_DIRECTORY);
         f.mkdir();
@@ -85,6 +94,27 @@ public class HomescreenActivity extends ActionBarActivity{
             Toast.makeText(this,"No Projects Found in "+Constants.DATA_BASE_DIRECTORY+"/assets/",Toast.LENGTH_SHORT).show();
             f.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(Gravity.START| Gravity.LEFT)){
+            drawerLayout.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
