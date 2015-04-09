@@ -112,10 +112,10 @@ public class HomescreenActivity extends ActionBarActivity{
     private void loadProject(String ProjectName){
         try{
             //File projectFile = new File(getFilesDir()+"/"+ProjectName);
-            XmlParser.readXML(Constants.DATA_BASE_DIRECTORY+"/assets/"+ProjectName);
+            XmlParser.readXML(Constants.DATA_BASE_DIRECTORY+"assets/"+ProjectName);
 
         }catch (RuntimeException f){
-            Toast.makeText(this,"No Projects Found in "+Constants.DATA_BASE_DIRECTORY+"/assets/",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"No Projects Found in "+Constants.DATA_BASE_DIRECTORY+"assets/"+ProjectName,Toast.LENGTH_SHORT).show();
             f.printStackTrace();
         }
     }

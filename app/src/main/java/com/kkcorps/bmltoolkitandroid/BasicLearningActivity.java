@@ -55,11 +55,12 @@ public class BasicLearningActivity extends ActionBarActivity {
     private ButtonRectangle addItem, runSimulator;
     private int clickIndex;
     private String TempAPkName = null, projectName;
-    private Dialog dialog;
+    private android.app.Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_learning);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -139,9 +140,12 @@ public class BasicLearningActivity extends ActionBarActivity {
             }
         });
 
-        dialog = new Dialog(BasicLearningActivity.this,"Save Dialog","Name of the Project: ");
-
+        //dialog = new Dialog(this,"Save Dialog","Enter the Project Name");
+        dialog = new android.app.Dialog(this);
         dialog.setContentView(R.layout.dialog_save);
+        dialog.setTitle("Save Dialog");
+        final TextView dialogMessage = (TextView) dialog.findViewById(R.id.dialogMessage);
+        dialogMessage.setText("Enter the Project Name");
         final EditText projectNameView = (EditText) dialog.findViewById(R.id.projectName);
         ButtonRectangle dialogButton = (ButtonRectangle) dialog.findViewById(R.id.dialogButtonSave);
         // if button is clicked, close the custom dialog
@@ -149,11 +153,11 @@ public class BasicLearningActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 projectName = projectNameView.getText().toString();
-                if(projectName!=null){
+                if(projectName!=null && !projectName.equals("")){
                     Constants.PROJECT_NAME_TEMP = projectName+".xml";
                 }
                 BasicLearningGenerator.writeXML(Constants.PROJECT_NAME_TEMP);
-                Toast.makeText(BasicLearningActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"/assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
+                Toast.makeText(BasicLearningActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

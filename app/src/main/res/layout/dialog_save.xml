@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Hello"
+        android:textSize="16sp"
+        android:id="@+id/dialogMessage"/>
 
     <EditText
+        android:layout_margin="10dp"
         android:id="@+id/projectName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"/>
+        android:textColor="#333"/>
 
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_gravity="center"
         android:id="@+id/dialogButtonSave"
-        android:background="#66009999"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:text="Save"
-        android:layout_marginTop="10dp"
- />
+        android:background="#009999"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
 
 </LinearLayout>
