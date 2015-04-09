@@ -52,6 +52,7 @@ public class XmlParser {
 
     public static void readXML(String FileName){
         Log.i("XmlParser","InsideReader");
+        ItemsList.clear();
         Document XmlDoc = getDomElement(FileName);
         NodeList authorInfo = XmlDoc.getElementsByTagName("author");
         author = authorInfo.item(0).getFirstChild().getTextContent();
