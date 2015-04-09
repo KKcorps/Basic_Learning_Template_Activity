@@ -1,6 +1,7 @@
 package com.kkcorps.bmltoolkitandroid;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
@@ -10,12 +11,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.gc.materialdesign.widgets.Dialog;
 import com.kkcorps.bmltoolkitandroid.Utils.BasicLearningGenerator;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
@@ -50,11 +54,13 @@ public class BasicLearningActivity extends ActionBarActivity {
     private SimpleDragSortCursorAdapter cursorAdapter;
     private ButtonRectangle addItem, runSimulator;
     private int clickIndex;
-    private String TempAPkName = null;
+    private String TempAPkName = null, projectName;
+    private Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_basic_learning);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -133,7 +139,24 @@ public class BasicLearningActivity extends ActionBarActivity {
             }
         });
 
+        dialog = new Dialog(BasicLearningActivity.this,"Save Dialog","Name of the Project: ");
 
+        dialog.setContentView(R.layout.dialog_save);
+        final EditText projectNameView = (EditText) dialog.findViewById(R.id.projectName);
+        ButtonRectangle dialogButton = (ButtonRectangle) dialog.findViewById(R.id.dialogButtonSave);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                projectName = projectNameView.getText().toString();
+                if(projectName!=null){
+                    Constants.PROJECT_NAME_TEMP = projectName+".xml";
+                }
+                BasicLearningGenerator.writeXML(Constants.PROJECT_NAME_TEMP);
+                Toast.makeText(BasicLearningActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"/assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
 
     }
     //Signed Apk working properly
@@ -261,8 +284,8 @@ public class BasicLearningActivity extends ActionBarActivity {
                 break;
 
             case R.id.action_save:
-                BasicLearningGenerator.writeXML("InfoTemplateTestProject.xml");
-                Toast.makeText(this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"/assets/InfoTemplateTestProject.xml",Toast.LENGTH_SHORT).show();
+                dialog.show();
+                break;
             default:
                 Log.i("BasicLearningActivity","Unknown Item Clicked");
         }

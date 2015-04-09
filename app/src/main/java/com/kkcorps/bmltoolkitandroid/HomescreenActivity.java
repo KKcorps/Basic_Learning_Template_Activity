@@ -1,6 +1,8 @@
 package com.kkcorps.bmltoolkitandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by root on 22/3/15.
@@ -48,7 +51,7 @@ public class HomescreenActivity extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
-                loadProject("InfoTemplateTestProject.xml");
+                loadProject(Constants.PROJECT_NAME_TEMP);
                 Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
                 startActivity(intent);
             }
@@ -59,7 +62,9 @@ public class HomescreenActivity extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
+                GlobalModelCollection.globalCollectionList = new ArrayList<BasicLearningItem>();
                 Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
+                //openApp(HomescreenActivity.this, "com.kkcorps.quiztemplate");
                 startActivity(intent);
             }
         });
@@ -83,6 +88,25 @@ public class HomescreenActivity extends ActionBarActivity{
             Log.i("Home","Error: "+e.toString());
         }*/
 
+    }
+
+    public static boolean openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+
+        try {
+            Intent i = manager.getLaunchIntentForPackage(packageName);
+            if (i == null) {
+                //return false;
+                throw new PackageManager.NameNotFoundException();
+
+            }
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            context.startActivity(i);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void loadProject(String ProjectName){
