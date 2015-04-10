@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
 
 import java.io.File;
@@ -45,7 +46,6 @@ public class HomescreenActivity extends ActionBarActivity{
         //create buildmLearn Directory in Sdcard for storing Apks
         File f = new File(Constants.DATA_BASE_DIRECTORY);
         f.mkdir();
-
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.loadProject);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +68,7 @@ public class HomescreenActivity extends ActionBarActivity{
                 startActivity(intent);
             }
         });
+
 
 
         /*

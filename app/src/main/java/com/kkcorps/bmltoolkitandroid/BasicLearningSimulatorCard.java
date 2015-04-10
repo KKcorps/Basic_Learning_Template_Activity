@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -74,7 +75,9 @@ public class BasicLearningSimulatorCard extends ActionBarActivity{
         rlIcon1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Sim","Clicked");
+                SimulatorUtils simulatorUtils = new SimulatorUtils();
+                simulatorUtils.takeScreenshot(BasicLearningSimulatorCard.this,"jpg","100","Simulator_Screenshot");
+                Log.i("Simulator","Screenshot Clicked");
             }
         });
         // Build the menu with default options: light theme, 90 degrees, 72dp radius.
