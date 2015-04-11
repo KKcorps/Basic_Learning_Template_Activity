@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
 
@@ -30,6 +32,9 @@ import java.util.ArrayList;
 public class HomescreenActivity extends ActionBarActivity{
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle drawerToggle;
+    private final int FILE_SELECT_REQUEST = 100;
+    private String TAG = "HomeScreen";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +57,7 @@ public class HomescreenActivity extends ActionBarActivity{
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
                 loadProject(Constants.PROJECT_NAME_TEMP);
-                Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -113,12 +117,56 @@ public class HomescreenActivity extends ActionBarActivity{
     private void loadProject(String ProjectName){
         try{
             //File projectFile = new File(getFilesDir()+"/"+ProjectName);
-            XmlParser.readXML(Constants.DATA_BASE_DIRECTORY+"assets/"+ProjectName);
+            showFileChooser();
+            //XmlParser.readXML(Constants.DATA_BASE_DIRECTORY+"assets/"+ProjectName);
 
         }catch (RuntimeException f){
             Toast.makeText(this,"No Projects Found in "+Constants.DATA_BASE_DIRECTORY+"assets/"+ProjectName,Toast.LENGTH_SHORT).show();
             f.printStackTrace();
         }
+    }
+
+    private boolean showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("text/xml");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"),
+                    FILE_SELECT_REQUEST);
+            return true;
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+        return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+                    Log.d(TAG, "File Uri: " + uri.toString());
+                    // Get the path
+                    String path = FileUtils.getPath(this, uri);
+                    Log.d(TAG, "File Path: " + path);
+                    if(path!=null && path.endsWith(".xml")) {
+                        XmlParser.readXML(path);
+                        Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(this,"Unsupported File Format", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
