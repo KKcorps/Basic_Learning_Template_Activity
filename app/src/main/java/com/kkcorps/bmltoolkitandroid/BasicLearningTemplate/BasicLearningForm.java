@@ -1,4 +1,4 @@
-package com.kkcorps.bmltoolkitandroid;
+package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.kkcorps.bmltoolkitandroid.Constants;
+import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
+import com.kkcorps.bmltoolkitandroid.R;
 
 /**
  * Created by root on 8/3/15.

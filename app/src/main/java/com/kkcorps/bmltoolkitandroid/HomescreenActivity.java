@@ -17,13 +17,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
-import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.XmlParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**

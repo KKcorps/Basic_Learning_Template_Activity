@@ -1,9 +1,9 @@
-package com.kkcorps.bmltoolkitandroid.Utils;
+package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
 import android.util.Log;
 import android.util.Xml;
 
-import com.kkcorps.bmltoolkitandroid.BasicLearningItem;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.Constants;
 import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
 

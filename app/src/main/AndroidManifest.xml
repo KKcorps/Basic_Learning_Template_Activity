@@ -10,7 +10,7 @@
         android:label="BuildmLearn Droid"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".BasicLearningSimulatorCard"
+            android:name=".BasicLearningTemplate.BasicLearningSimulatorCard"
             android:label="Home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BasicLearningForm"
+            android:name=".BasicLearningTemplate.BasicLearningForm"
             android:label="mLearning Editor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BasicLearningSimulatorList"
+            android:name=".BasicLearningTemplate.BasicLearningSimulatorList"
             android:label="mLearning Simulator" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,7 @@
 package com.kkcorps.bmltoolkitandroid;
 
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
+
 import java.util.ArrayList;
 import java.util.List;
 

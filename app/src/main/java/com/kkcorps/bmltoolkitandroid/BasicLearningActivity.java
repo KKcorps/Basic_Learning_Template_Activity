@@ -1,7 +1,6 @@
 package com.kkcorps.bmltoolkitandroid;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
@@ -19,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.gc.materialdesign.widgets.Dialog;
-import com.kkcorps.bmltoolkitandroid.Utils.BasicLearningGenerator;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningForm;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningSimulatorCard;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningGenerator;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 

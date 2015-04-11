@@ -1,4 +1,4 @@
-package com.kkcorps.bmltoolkitandroid;
+package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
 /**
  * Created by root on 9/3/15.

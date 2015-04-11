@@ -1,44 +1,56 @@
-package com.kkcorps.bmltoolkitandroid;
+package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
+import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
+import com.kkcorps.bmltoolkitandroid.InfoAdapter;
+import com.kkcorps.bmltoolkitandroid.R;
+import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
-/**
- * Created by root on 21/3/15.
- */
-public class BasicLearningSimulatorList extends ActionBarActivity{
+import java.util.ArrayList;
+import java.util.List;
 
-    FloatingActionMenu rightLowerMenu;
+/**
+ * Created by root on 23/3/15.
+ */
+public class BasicLearningSimulatorCard extends ActionBarActivity{
+    public List<BasicLearningItem> infoList= new ArrayList<BasicLearningItem>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_basic_learning_simulator_list);
+        setContentView(R.layout.activity_basic_learning_simulator_card);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("mLearning Simulator");
         setSupportActionBar(toolbar);
 
-        String [] itemTitles = new String[GlobalModelCollection.globalCollectionList.size()];
-        for(int i=0;i<GlobalModelCollection.globalCollectionList.size();i++){
-            itemTitles[i] = GlobalModelCollection.globalCollectionList.get(i).getTitle();
+        RecyclerView recList = (RecyclerView) findViewById(R.id.recyclerView);
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+
+        for(int i=0;i< GlobalModelCollection.globalCollectionList.size();i++){
+            infoList.add(GlobalModelCollection.globalCollectionList.get(i));
+
         }
-        Adapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.list_child_view, itemTitles);
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter((ListAdapter) adapter);
+        InfoAdapter infoAdapter = new InfoAdapter(infoList);
+        recList.setAdapter(infoAdapter);
+
+
 
         final ImageView fabIconNew = new ImageView(this);
         fabIconNew.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_wrench));
@@ -48,7 +60,6 @@ public class BasicLearningSimulatorList extends ActionBarActivity{
                 .setContentView(fabIconNew)
                 .setBackgroundDrawable(R.drawable.button_action_main)
                 .build();
-
 
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
         rLSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_subaction));
@@ -63,30 +74,24 @@ public class BasicLearningSimulatorList extends ActionBarActivity{
         rlIcon3.setImageDrawable(getResources().getDrawable(R.drawable.film));
         rlIcon4.setImageDrawable(getResources().getDrawable(R.drawable.undo));
 
-        rlIcon4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("Sim","Clicked");
-            }
-        });
-
-        SubActionButton rlIcon1Button = rLSubBuilder.setContentView(null).build();
-
+        SubActionButton rlIcon1Button = rLSubBuilder.setContentView(rlIcon1).build();
         rlIcon1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Sim","Clicked2");
+                SimulatorUtils simulatorUtils = new SimulatorUtils();
+                simulatorUtils.takeScreenshot(BasicLearningSimulatorCard.this,"jpg","100","Simulator_Screenshot");
+                Log.i("Simulator","Screenshot Clicked");
             }
         });
         // Build the menu with default options: light theme, 90 degrees, 72dp radius.
         // Set 4 default SubActionButtons
-        rightLowerMenu = new FloatingActionMenu.Builder(this)
+        final FloatingActionMenu rightLowerMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(rlIcon1Button)
+                .addSubActionView(rLSubBuilder.setContentView(rlIcon2).build())
+                .addSubActionView(rLSubBuilder.setContentView(rlIcon3).build())
+                .addSubActionView(rLSubBuilder.setContentView(rlIcon4).build())
                 .attachTo(rightLowerButton)
                 .build();
-
-
-
 
         // Listen menu open and close events to animate the button content view
         rightLowerMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
@@ -108,26 +113,13 @@ public class BasicLearningSimulatorList extends ActionBarActivity{
                 animation.start();
             }
         });
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_general, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        getMenuInflater().inflate(R.menu.menu_general,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
+
+

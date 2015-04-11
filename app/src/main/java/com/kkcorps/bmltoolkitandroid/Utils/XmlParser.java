@@ -1,22 +1,15 @@
 package com.kkcorps.bmltoolkitandroid.Utils;
 
 import android.util.Log;
-import android.util.Xml;
 
-import com.kkcorps.bmltoolkitandroid.BasicLearningItem;
-import com.kkcorps.bmltoolkitandroid.Constants;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
