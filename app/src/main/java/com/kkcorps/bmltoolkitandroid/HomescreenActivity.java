@@ -65,7 +65,7 @@ public class HomescreenActivity extends ActionBarActivity{
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
                 GlobalModelCollection.globalCollectionList = new ArrayList<BasicLearningItem>();
-                Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
+                Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
                 //openApp(HomescreenActivity.this, "com.kkcorps.quiztemplate");
                 startActivity(intent);
             }
@@ -156,7 +156,7 @@ public class HomescreenActivity extends ActionBarActivity{
                     Log.d(TAG, "File Path: " + path);
                     if(path!=null && path.endsWith(".xml")) {
                         XmlParser.readXML(path);
-                        Intent intent = new Intent(HomescreenActivity.this, BasicLearningActivity.class);
+                        Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
                         startActivity(intent);
                     }else {
                         Toast.makeText(this,"Unsupported File Format", Toast.LENGTH_SHORT).show();

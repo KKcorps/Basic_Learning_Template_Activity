@@ -41,7 +41,7 @@ import kellinwood.zipio.ZipInput;
 import kellinwood.zipio.ZipOutput;
 
 
-public class BasicLearningActivity extends ActionBarActivity {
+public class TemplateListActivity extends ActionBarActivity {
 
     private DragSortListView dragSortListView;
 
@@ -116,7 +116,7 @@ public class BasicLearningActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i("BasicLearningForm","Item no. "+String.valueOf(i)+" has been clicked");
-                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningForm.class);
+                Intent intent = new Intent(TemplateListActivity.this,BasicLearningForm.class);
                 intent.putExtra("clickIndex",i);
                 clickIndex = i;
                 intent.putExtra("requestCode", String.valueOf(Constants.EDIT_REQUEST_CODE) );
@@ -127,7 +127,7 @@ public class BasicLearningActivity extends ActionBarActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningForm.class);
+                Intent intent = new Intent(TemplateListActivity.this,BasicLearningForm.class);
                 intent.putExtra("requestCode", String.valueOf(Constants.ADD_REQUEST_CODE));
                 startActivityForResult(intent, Constants.ADD_REQUEST_CODE);
             }
@@ -136,7 +136,7 @@ public class BasicLearningActivity extends ActionBarActivity {
         runSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BasicLearningActivity.this,BasicLearningSimulatorCard.class);
+                Intent intent = new Intent(TemplateListActivity.this,BasicLearningSimulatorCard.class);
                 startActivity(intent);
             }
         });
@@ -158,7 +158,7 @@ public class BasicLearningActivity extends ActionBarActivity {
                     Constants.PROJECT_NAME_TEMP = projectName+".xml";
                 }
                 BasicLearningGenerator.writeXML(Constants.PROJECT_NAME_TEMP);
-                Toast.makeText(BasicLearningActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
+                Toast.makeText(TemplateListActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
