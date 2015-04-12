@@ -19,7 +19,7 @@ import com.kkcorps.bmltoolkitandroid.R;
 /**
  * Created by root on 8/3/15.
  */
-public class BasicLearningForm extends ActionBarActivity {
+public class BasicLearningEditor extends ActionBarActivity {
     public static EditText titleTextView, descriptionTextView, authorTextView, collectionTitleTextView, numberOfItemsTextView;
     public static ButtonRectangle okButton;
     public int REQUEST_CODE = 101;

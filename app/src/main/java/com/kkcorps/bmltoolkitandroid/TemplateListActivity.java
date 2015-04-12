@@ -18,10 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningForm;
+import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningEditor;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningSimulatorCard;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningGenerator;
+import com.kkcorps.bmltoolkitandroid.FlashCardTemplate.FlashCardEditor;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
@@ -116,7 +117,7 @@ public class TemplateListActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i("BasicLearningForm","Item no. "+String.valueOf(i)+" has been clicked");
-                Intent intent = new Intent(TemplateListActivity.this,BasicLearningForm.class);
+                Intent intent = new Intent(TemplateListActivity.this,BasicLearningEditor.class);
                 intent.putExtra("clickIndex",i);
                 clickIndex = i;
                 intent.putExtra("requestCode", String.valueOf(Constants.EDIT_REQUEST_CODE) );
@@ -127,7 +128,7 @@ public class TemplateListActivity extends ActionBarActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TemplateListActivity.this,BasicLearningForm.class);
+                Intent intent = new Intent(TemplateListActivity.this,BasicLearningEditor.class);
                 intent.putExtra("requestCode", String.valueOf(Constants.ADD_REQUEST_CODE));
                 startActivityForResult(intent, Constants.ADD_REQUEST_CODE);
             }
