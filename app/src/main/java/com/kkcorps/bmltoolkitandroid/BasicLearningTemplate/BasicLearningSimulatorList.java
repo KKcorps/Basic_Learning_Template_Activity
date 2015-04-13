@@ -36,7 +36,7 @@ public class BasicLearningSimulatorList extends ActionBarActivity{
 
         String [] itemTitles = new String[GlobalModelCollection.globalCollectionList.size()];
         for(int i=0;i<GlobalModelCollection.globalCollectionList.size();i++){
-            itemTitles[i] = GlobalModelCollection.globalCollectionList.get(i).getTitle();
+            itemTitles[i] = ( (BasicLearningItem) GlobalModelCollection.globalCollectionList.get(i)).getTitle();
         }
         Adapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.list_child_view, itemTitles);
         ListView listView = (ListView) findViewById(android.R.id.list);

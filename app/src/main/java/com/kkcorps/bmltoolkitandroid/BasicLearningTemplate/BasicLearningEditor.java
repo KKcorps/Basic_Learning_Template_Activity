@@ -21,8 +21,12 @@ import com.kkcorps.bmltoolkitandroid.R;
  */
 public class BasicLearningEditor extends ActionBarActivity {
     public static EditText titleTextView, descriptionTextView, authorTextView, collectionTitleTextView, numberOfItemsTextView;
+    String title, description, author, collectionTitle, numberOfItems;
+
     public static ButtonRectangle okButton;
-    public int REQUEST_CODE = 101;
+    public int clickIndex;
+    boolean isInEditingMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +45,10 @@ public class BasicLearningEditor extends ActionBarActivity {
         Log.i("BasicLearningForm","Request Code: "+getIntent().getStringExtra("requestCode"));
 
         if(getIntent().getStringExtra("requestCode").equals(String.valueOf(Constants.EDIT_REQUEST_CODE))){
-            int clickIndex = getIntent().getIntExtra("clickIndex",0);
+            isInEditingMode = true;
+            clickIndex = getIntent().getIntExtra("clickIndex",0);
             Log.i("BasicLearningForm","Click Index is: "+String.valueOf(clickIndex));
-            BasicLearningItem clickedItem = GlobalModelCollection.globalCollectionList.get(clickIndex);
+            BasicLearningItem clickedItem = (BasicLearningItem) GlobalModelCollection.globalCollectionList.get(clickIndex);
             titleTextView.setText(clickedItem.getTitle());
             descriptionTextView.setText(clickedItem.getDescription());
             authorTextView.setText(clickedItem.getAuthor());
@@ -55,14 +60,25 @@ public class BasicLearningEditor extends ActionBarActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent resultIntent = new Intent();
+                title = titleTextView.getText().toString();
+                description = descriptionTextView.getText().toString();
+                author = authorTextView.getText().toString();
+                numberOfItems = numberOfItemsTextView.getText().toString();
+                collectionTitle = collectionTitleTextView.getText().toString();
+                BasicLearningItem addItem = new BasicLearningItem(title,description,author,numberOfItems,collectionTitle);
+                if (isInEditingMode){
+                    GlobalModelCollection.globalCollectionList.set(clickIndex,addItem);
+                }else {
+                    GlobalModelCollection.globalCollectionList.add(addItem);
+                }
+                /*Intent resultIntent = new Intent();
                 resultIntent.putExtra("title", titleTextView.getText().toString());
                 resultIntent.putExtra("description", descriptionTextView.getText().toString());
                 resultIntent.putExtra("author", authorTextView.getText().toString());
                 resultIntent.putExtra("collectionTitle", collectionTitleTextView.getText().toString());
-                resultIntent.putExtra("numberOfItems", numberOfItemsTextView.getText().toString());
+                resultIntent.putExtra("numberOfItems", numberOfItemsTextView.getText().toString());*/
 
-                setResult(Activity.RESULT_OK,resultIntent);
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         });

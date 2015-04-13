@@ -9,37 +9,37 @@ import java.util.List;
  * Created by root on 21/3/15.
  */
 public class GlobalModelCollection {
-    public static List<BasicLearningItem> globalCollectionList = new ArrayList<BasicLearningItem>();
+    public static List<Model> globalCollectionList = new ArrayList<Model>();
 
-    public GlobalModelCollection(){
+    public GlobalModelCollection(Model model){
 
     }
 
-    public GlobalModelCollection(List<BasicLearningItem> learningItems){
+    public GlobalModelCollection(List<Model> learningItems){
         globalCollectionList.clear();
         globalCollectionList.addAll(learningItems);
     }
 
-    public BasicLearningItem get(int i){
+    public Model get(int i){
         return globalCollectionList.get(i);
     }
 
-    public BasicLearningItem set(int i, BasicLearningItem item){
+    public Model set(int i, Model item){
         return globalCollectionList.set(i, item);
     }
-    public void add(BasicLearningItem item){
+    public void add(Model item){
         globalCollectionList.add(item);
     }
 
-    public void addAll(List<BasicLearningItem> learningItems){
+    public void addAll(List<Model> learningItems){
         globalCollectionList.addAll(learningItems);
     }
 
-    public void update(List<BasicLearningItem> learningItems){
+    public void update(List<Model> learningItems){
         globalCollectionList.clear();
         globalCollectionList.addAll(learningItems);
     }
-    public BasicLearningItem remove(int i){
+    public Model remove(int i){
         return globalCollectionList.remove(i);
     }
 }

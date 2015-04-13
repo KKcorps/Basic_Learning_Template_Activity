@@ -1,9 +1,12 @@
 package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
+import com.kkcorps.bmltoolkitandroid.Model;
+
 /**
  * Created by root on 9/3/15.
  */
-public class BasicLearningItem {
+public class BasicLearningItem extends Model{
+
     private String Title, Description, Author, CollectionTitle, NumberOfItems;
 
     public BasicLearningItem(String title, String description, String author, String collectionTitle, String numberOfItems){
@@ -12,6 +15,11 @@ public class BasicLearningItem {
         Author = author;
         CollectionTitle = collectionTitle;
         NumberOfItems = numberOfItems;
+    }
+
+    @Override
+    public String getName() {
+        return this.toString();
     }
 
     public String getTitle(){

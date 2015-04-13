@@ -78,8 +78,8 @@ public class XmlParser {
            BasicLearningItem newItem = new BasicLearningItem(title,description,author,collectionTitle,String.valueOf(i));
            ItemsList.add(newItem);
         }
-
-        GlobalModelCollection.globalCollectionList = ItemsList;
+        GlobalModelCollection.globalCollectionList.clear();
+        GlobalModelCollection.globalCollectionList.addAll(ItemsList);
     }
 
 }

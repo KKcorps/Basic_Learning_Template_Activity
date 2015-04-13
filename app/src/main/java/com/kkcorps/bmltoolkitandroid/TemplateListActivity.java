@@ -51,7 +51,7 @@ public class TemplateListActivity extends ActionBarActivity {
     private String[] placesArray = new String[]{};
     private List<String> places = new ArrayList<String>(Arrays.asList(placesArray));
 
-    private List<BasicLearningItem> itemsArray = new ArrayList<BasicLearningItem>(GlobalModelCollection.globalCollectionList);
+    private List<Model> itemsArray = new ArrayList<Model>(GlobalModelCollection.globalCollectionList);
     private MatrixCursor matrixCursor;
     private SimpleDragSortCursorAdapter cursorAdapter;
     private ButtonRectangle addItem, runSimulator;
@@ -80,7 +80,7 @@ public class TemplateListActivity extends ActionBarActivity {
         for (int i = 0; i < itemsArray.size(); i++) {
             matrixCursor.newRow()
                     .add(i)
-                    .add(itemsArray.get(i).getTitle());
+                    .add(((BasicLearningItem) itemsArray.get(i)).getTitle());
         }
         cursorAdapter = new SimpleDragSortCursorAdapter(getApplicationContext(),R.layout.drag_sort_item_with_handle,matrixCursor,new String[]{"placeTitle"},new int[]{R.id.text},0);
         dragSortListener = new DragSortListView.DragSortListener() {
@@ -93,7 +93,7 @@ public class TemplateListActivity extends ActionBarActivity {
             public void drop(int i, int i2) {
                 if(i!=i2) {
 
-                    BasicLearningItem itemDragged = itemsArray.get(i);
+                    BasicLearningItem itemDragged = (BasicLearningItem) itemsArray.get(i);
                     itemsArray.set(i, itemsArray.get(i2));
                     itemsArray.set(i2, itemDragged);
                     GlobalModelCollection.globalCollectionList.clear();
@@ -218,19 +218,22 @@ public class TemplateListActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            String title = data.getStringExtra("title");
+            /*String title = data.getStringExtra("title");
             BasicLearningItem basicLearningItem = new BasicLearningItem(title,
                     data.getStringExtra("description"), data.getStringExtra("author"),
-                    data.getStringExtra("collectionTitle"), data.getStringExtra("numberOfItems"));
+                    data.getStringExtra("collectionTitle"), data.getStringExtra("numberOfItems"));*/
+
 
             if (requestCode == Constants.ADD_REQUEST_CODE) {
-                itemsArray.add(basicLearningItem);
-                GlobalModelCollection.globalCollectionList.add(basicLearningItem);
-                Log.i("BasicLearningActivity", "Global collection size:" + String.valueOf(GlobalModelCollection.globalCollectionList.size()));
+                itemsArray = GlobalModelCollection.globalCollectionList;
+                //itemsArray.add(basicLearningItem);
+                //GlobalModelCollection.globalCollectionList.add(basicLearningItem);
+                //Log.i("BasicLearningActivity", "Global collection size:" + String.valueOf(GlobalModelCollection.globalCollectionList.size()));
                 refreshList();
             } else if(requestCode == Constants.EDIT_REQUEST_CODE){
-                itemsArray.set(clickIndex, basicLearningItem);
-                GlobalModelCollection.globalCollectionList.set(clickIndex, basicLearningItem);
+                itemsArray = GlobalModelCollection.globalCollectionList;
+                //itemsArray.set(clickIndex, basicLearningItem);
+                //GlobalModelCollection.globalCollectionList.set(clickIndex, basicLearningItem);
                 refreshList();
             }
         }
@@ -242,7 +245,7 @@ public class TemplateListActivity extends ActionBarActivity {
         for (int j = 0; j < itemsArray.size(); j++) {
             matrixCursor.newRow()
                     .add(j)
-                    .add(itemsArray.get(j).getTitle());
+                    .add(((BasicLearningItem) itemsArray.get(j)).getTitle());
         }
         cursorAdapter.swapCursor(matrixCursor);
         cursorAdapter.notifyDataSetChanged();

@@ -6,6 +6,7 @@ import android.util.Xml;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.Constants;
 import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
+import com.kkcorps.bmltoolkitandroid.Model;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -31,14 +32,15 @@ public class BasicLearningGenerator {
             xmlSerializer.attribute("", "type", "InfoTemplate");
             xmlSerializer.startTag("", "author");
             xmlSerializer.startTag("","name");
-            xmlSerializer.text(GlobalModelCollection.globalCollectionList.get(0).getAuthor());
+            //TODO: Fix This!!
+            xmlSerializer.text(( (BasicLearningItem) GlobalModelCollection.globalCollectionList.get(0)) .getAuthor());
             xmlSerializer.endTag("", "name");
             xmlSerializer.startTag("","email");
             xmlSerializer.text("");
             xmlSerializer.endTag("","email");
             xmlSerializer.endTag("","author");
             xmlSerializer.startTag("","title");
-            xmlSerializer.text(GlobalModelCollection.globalCollectionList.get(0).getCollectionTitle());
+            xmlSerializer.text(((BasicLearningItem) GlobalModelCollection.globalCollectionList.get(0)).getCollectionTitle());
             xmlSerializer.endTag("","title");
             xmlSerializer.startTag("","description");
             xmlSerializer.endTag("","description");
@@ -48,16 +50,17 @@ public class BasicLearningGenerator {
 
             //Inserting Data
             xmlSerializer.startTag("","data");
-            List<BasicLearningItem> gdList = GlobalModelCollection.globalCollectionList;
+            List<Model> gdList = GlobalModelCollection.globalCollectionList;
             for(int i=0;i<gdList.size();i++){
                 xmlSerializer.startTag("","item");
 
+                BasicLearningItem item = (BasicLearningItem) gdList.get(i);
                 xmlSerializer.startTag("","item_title");
-                xmlSerializer.text(gdList.get(i).getTitle());
+                xmlSerializer.text(item.getTitle());
                 xmlSerializer.endTag("","item_title");
 
                 xmlSerializer.startTag("","item_description");
-                xmlSerializer.text(gdList.get(i).getDescription());
+                xmlSerializer.text(item.getDescription());
                 xmlSerializer.endTag("","item_description");
 
                 xmlSerializer.endTag("","item");

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
-import com.kkcorps.bmltoolkitandroid.InfoAdapter;
 import com.kkcorps.bmltoolkitandroid.R;
 import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
@@ -22,6 +21,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by root on 23/3/15.
@@ -38,19 +38,17 @@ public class BasicLearningSimulatorCard extends ActionBarActivity{
         setSupportActionBar(toolbar);
 
         RecyclerView recList = (RecyclerView) findViewById(R.id.recyclerView);
-        recList.setHasFixedSize(true);
+        //recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
         for(int i=0;i< GlobalModelCollection.globalCollectionList.size();i++){
-            infoList.add(GlobalModelCollection.globalCollectionList.get(i));
+            infoList.add((BasicLearningItem) GlobalModelCollection.globalCollectionList.get(i));
 
         }
         InfoAdapter infoAdapter = new InfoAdapter(infoList);
         recList.setAdapter(infoAdapter);
-
-
 
         final ImageView fabIconNew = new ImageView(this);
         fabIconNew.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_wrench));

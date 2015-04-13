@@ -64,7 +64,7 @@ public class HomescreenActivity extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
-                GlobalModelCollection.globalCollectionList = new ArrayList<BasicLearningItem>();
+                GlobalModelCollection.globalCollectionList = new ArrayList<Model>();
                 Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
                 //openApp(HomescreenActivity.this, "com.kkcorps.quiztemplate");
                 startActivity(intent);

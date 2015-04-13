@@ -1,4 +1,4 @@
-package com.kkcorps.bmltoolkitandroid;
+package com.kkcorps.bmltoolkitandroid.BasicLearningTemplate;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
+import com.kkcorps.bmltoolkitandroid.R;
 
 import java.util.List;
 
