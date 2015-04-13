@@ -23,6 +23,7 @@ import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningSimulatorCard;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningGenerator;
 import com.kkcorps.bmltoolkitandroid.FlashCardTemplate.FlashCardEditor;
+import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
@@ -165,14 +166,12 @@ public class TemplateListActivity extends ActionBarActivity {
         });
 
     }
-    //Signed Apk working properly
-    //template apk file and certs have to be copied to /mnt/external_sd/bmb/ directory
+
     private void SignApk(){
         try {
             ZipSigner zipSigner = new ZipSigner();
-
-            URL publicKeyUrl = UrlFromFile(copyFileFromAsset("keys/" ,Constants.CERT_NAME));
-            URL privateKeyUrl = UrlFromFile(copyFileFromAsset("keys/",Constants.KEY_NAME));
+            URL publicKeyUrl = FileUtils.UrlFromFile(FileUtils.copyFileFromAsset(TemplateListActivity.this, "keys/", Constants.CERT_NAME));
+            URL privateKeyUrl = FileUtils.UrlFromFile(FileUtils.copyFileFromAsset(TemplateListActivity.this,"keys/",Constants.KEY_NAME));
 
             X509Certificate certificate = zipSigner.readPublicKey(publicKeyUrl);
             PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
@@ -187,33 +186,7 @@ public class TemplateListActivity extends ActionBarActivity {
         }
     }
 
-    private File copyFileFromAsset(String assetPath, String FileName){
-        try {
-            File directory = new File(getCacheDir(),"/"+assetPath);
-            directory.mkdir();
-            File f = new File(getCacheDir()+"/"+assetPath,FileName);
-            InputStream is = getAssets().open(assetPath+FileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
 
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(buffer);
-            fos.close();
-            return f;
-        } catch (Exception e) { throw new RuntimeException(e); }
-    }
-
-    private URL UrlFromFile(File f){
-        URL url = null;
-        try {
-            url = new URL("file://" + f.getAbsolutePath());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return url;
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -270,7 +243,7 @@ public class TemplateListActivity extends ActionBarActivity {
                 try {
                     BasicLearningGenerator.writeXML("info_content.xml");
                     //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
-                    File f = copyFileFromAsset("Apks/","InfoTemplateApp.apk");
+                    File f = FileUtils.copyFileFromAsset(TemplateListActivity.this, "Apks/","InfoTemplateApp.apk");
                     ZipInput zipInput = ZipInput.read(f.getAbsolutePath());
 
                     ZioEntry zioEntry = new ZioEntry("/assets/info_content.xml",Constants.DATA_BASE_DIRECTORY+"assets/info_content.xml");

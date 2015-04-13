@@ -15,11 +15,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.utils.Utils;
+import com.gc.materialdesign.views.ButtonRectangle;
+import com.kkcorps.bmltoolkitandroid.Constants;
+import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
 import com.kkcorps.bmltoolkitandroid.R;
+import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,10 +36,14 @@ import java.util.List;
  */
 public class FlashCardEditor extends ActionBarActivity{
 
+    EditText questionView, hintView , answerView, authorView, numberOfItemsView , collectionTitleView;
+    String question, hint, answer, author, numberOfItems, collectionTitle, base64Image;
     ImageView imageView;
+    ButtonRectangle OkButton;
     private Uri outputFileUri;
     int PICTURE_REQUEST_CODE = 101;
-
+    int clickIndex;
+    boolean isInEditingMode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +56,50 @@ public class FlashCardEditor extends ActionBarActivity{
                 openImageIntent();
                 return false;
             }
+        });
+
+        questionView = (EditText) findViewById(R.id.question);
+        answerView = (EditText) findViewById(R.id.answer);
+        hintView = (EditText) findViewById(R.id.hint);
+        authorView = (EditText) findViewById(R.id.author);
+        numberOfItemsView = (EditText) findViewById(R.id.numberOfItems);
+        collectionTitleView = (EditText) findViewById(R.id.collectionTitle);
+
+        if(getIntent().getStringExtra("requestCode").equals(String.valueOf(Constants.EDIT_REQUEST_CODE))) {
+            isInEditingMode = true;
+            clickIndex = getIntent().getIntExtra("clickIndex", 0);
+            FlashCardItem item = (FlashCardItem) GlobalModelCollection.globalCollectionList.get(clickIndex);
+            questionView.setText(item.getQuestion());
+            answerView.setText(item.getAnswer());
+            hintView.setText(item.getHint());
+            authorView.setText(item.getAuthor());
+            numberOfItemsView.setText(item.getNumberOfItems());
+            collectionTitleView.setText(item.getCollectionTitle());
+            imageView.setImageBitmap(FileUtils.Base64ToImage(item.getBase64Image()));
+
+        }
+
+        OkButton = (ButtonRectangle) findViewById(R.id.ok_button);
+        OkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(base64Image==null || base64Image.isEmpty()){
+                    Toast.makeText(FlashCardEditor.this,"No Image Selected.Please select a image to continue!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                question = questionView.getText().toString();
+                answer = answerView.getText().toString();
+                hint = hintView.getText().toString();
+                author = authorView.getText().toString();
+                numberOfItems = numberOfItemsView.getText().toString();
+                collectionTitle = collectionTitleView.getText().toString();
+                FlashCardItem flashCardItem = new FlashCardItem(question,answer,hint,author,numberOfItems,collectionTitle,base64Image);
+                if(isInEditingMode) {
+                    GlobalModelCollection.globalCollectionList.set(clickIndex,flashCardItem);
+                }else{
+                    GlobalModelCollection.globalCollectionList.add(flashCardItem);
+                }
+                }
         });
     }
 
@@ -81,7 +135,6 @@ public class FlashCardEditor extends ActionBarActivity{
 
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
         startActivityForResult(chooserIntent, PICTURE_REQUEST_CODE);
     }
 
@@ -112,6 +165,7 @@ public class FlashCardEditor extends ActionBarActivity{
                     imageView.setImageDrawable(null);
                     imageView.setImageURI(selectedImageUri);
                 }
+                base64Image = FileUtils.ImageToBase64(FileUtils.getPath(this,selectedImageUri));
             }
         }
     }

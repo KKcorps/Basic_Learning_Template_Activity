@@ -24,7 +24,7 @@ public class BasicLearningEditor extends ActionBarActivity {
     String title, description, author, collectionTitle, numberOfItems;
 
     public static ButtonRectangle okButton;
-    public int clickIndex;
+    int clickIndex;
     boolean isInEditingMode = false;
 
     @Override
