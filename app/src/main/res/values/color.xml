@@ -3,4 +3,6 @@
     <color name="primary">#FFA500</color>
     <color name="primary_dark">#006633</color>
     <color name="accent">#ffffff</color>
+    <color name="text_color_dark">#333</color>
+    <color name="button_background">#009999</color>
 </resources>

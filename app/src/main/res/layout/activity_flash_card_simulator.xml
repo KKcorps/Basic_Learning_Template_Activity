@@ -2,27 +2,42 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/simulator_wrapper"
     android:layout_height="match_parent">
 <include
-    layout="@layout/toolbar"
-    android:id="@+id/include" />
+    layout="@layout/toolbar" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/questionNumber"
         android:text="Question #1 of 5"
         android:padding="10dp"
+        android:textColor="@color/text_color_dark"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-        android:layout_below="@+id/include"
+        android:layout_below="@+id/toolbar_main"
         android:layout_alignParentStart="true" />
     <ImageView
         android:layout_width="320dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
+        android:id="@+id/question"
         android:src="@drawable/folder"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        android:id="@+id/answer"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:text="Hello"
+        android:background="@color/accent"
+        android:textColor="@color/text_color_dark"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,18 +47,24 @@
         android:id="@+id/linearLayout">
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height_normal"
         android:layout_weight="0.33"
+        android:background="@color/button_background"
+        android:text="Previous"
         android:id="@+id/previousButton" />
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height_normal"
         android:layout_weight="0.33"
-        android:id="@+id/OKButton" />
+        android:background="@color/button_background"
+        android:text="Flip"
+        android:id="@+id/flipButton" />
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height_normal"
         android:layout_weight="0.33"
+        android:background="@color/button_background"
+        android:text="Next"
         android:id="@+id/nextButton" />
     </LinearLayout>
 </RelativeLayout>

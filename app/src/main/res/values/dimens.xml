@@ -7,7 +7,8 @@
     <dimen name="statusMargin">0dp</dimen>
     <dimen name="userSpace">164dp</dimen>
     <dimen name="photoMarginTop">16dp</dimen>
-
+    <dimen name="button_height_normal">55dp</dimen>
     <!-- match_parent = -1dp / wrap_content = -2dp -->
     <dimen name="drawerWidth">-1dp</dimen>
+
 </resources>

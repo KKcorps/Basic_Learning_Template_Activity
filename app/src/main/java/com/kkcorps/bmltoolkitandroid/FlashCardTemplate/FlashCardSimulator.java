@@ -2,6 +2,7 @@ package com.kkcorps.bmltoolkitandroid.FlashCardTemplate;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,9 +10,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonRectangle;
+import com.kkcorps.bmltoolkitandroid.GlobalModelCollection;
 import com.kkcorps.bmltoolkitandroid.R;
+import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.SimulatorUtils;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -20,23 +27,77 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 /**
  * Created by root on 14/4/15.
  */
-public class FlashCardSimulator extends ActionBarActivity{
+public class FlashCardSimulator extends  ActionBarActivity{
+    ImageView questionView;
+    ButtonRectangle previous,next,flip;
+    TextView questionNumber,answerView;
+    int currentIndex=0, numberOfQuestions;
+    boolean isAnswerVisible = false;
+    RelativeLayout rootLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash_card_simulator);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        toolbar.setTitle("Flash Simulator");
+        toolbar.setTitle("Flash Card Simulator");
         setSupportActionBar(toolbar);
+
+        numberOfQuestions = GlobalModelCollection.size();
+
+        questionNumber = (TextView) findViewById(R.id.questionNumber);
+        questionView = (ImageView) findViewById(R.id.question);
+        answerView = (TextView) findViewById(R.id.answer);
+        previous = (ButtonRectangle) findViewById(R.id.previousButton);
+        next  = (ButtonRectangle) findViewById(R.id.nextButton);
+        flip = (ButtonRectangle) findViewById(R.id.flipButton);
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateQuestion(currentIndex-1);
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateQuestion(currentIndex+1);
+            }
+        });
+        flip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isAnswerVisible){
+                    questionView.setVisibility(View.GONE);
+                    answerView.setVisibility(View.VISIBLE);
+                    isAnswerVisible = true;
+                }else {
+                    questionView.setVisibility(View.VISIBLE);
+                    answerView.setVisibility(View.GONE);
+                    isAnswerVisible = false;
+                }
+            }
+        });
+
+        if(numberOfQuestions>0){
+            populateQuestion(0);
+        }
 
         //Floating Action Button
         final ImageView fabIconNew = new ImageView(this);
+        FloatingActionButton.LayoutParams params = new FloatingActionButton.LayoutParams(
+                80,
+                80
+        );
+        params.setMargins(0,0,0,45);
+
         fabIconNew.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_wrench));
 
         final FloatingActionButton rightLowerButton = new FloatingActionButton.Builder(this)
                 .setTheme(R.style.Base_Theme_AppCompat)
                 .setContentView(fabIconNew)
                 .setBackgroundDrawable(R.drawable.button_action_main)
+                .setLayoutParams(params)
                 .build();
 
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
@@ -91,6 +152,17 @@ public class FlashCardSimulator extends ActionBarActivity{
                 animation.start();
             }
         });
+    }
+
+    private void populateQuestion(int index) {
+        if(index>=0 && index<numberOfQuestions) {
+            FlashCardItem flashcard = (FlashCardItem) GlobalModelCollection.get(index);
+            Bitmap questionImage = FileUtils.Base64ToImage(flashcard.getBase64Image());
+            questionView.setImageBitmap(questionImage);
+            questionNumber.setText("Question #" + String.valueOf(index+1) + " of " + String.valueOf(numberOfQuestions));
+            answerView.setText(flashcard.getAnswer());
+            currentIndex = index;
+        }
     }
 
     @Override

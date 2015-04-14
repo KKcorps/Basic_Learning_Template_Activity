@@ -20,7 +20,7 @@ public class GlobalModelCollection {
         globalCollectionList.addAll(learningItems);
     }
 
-    public Model get(int i){
+    public static Model get(int i){
         return globalCollectionList.get(i);
     }
 
@@ -38,6 +38,10 @@ public class GlobalModelCollection {
     public static void update(List<Model> learningItems){
         globalCollectionList.clear();
         globalCollectionList.addAll(learningItems);
+    }
+
+    public static int size(){
+        return globalCollectionList.size();
     }
     public static Model remove(int i){
         return globalCollectionList.remove(i);
