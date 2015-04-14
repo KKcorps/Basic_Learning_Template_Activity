@@ -35,11 +35,11 @@ public class GlobalModelCollection {
         globalCollectionList.addAll(learningItems);
     }
 
-    public void update(List<Model> learningItems){
+    public static void update(List<Model> learningItems){
         globalCollectionList.clear();
         globalCollectionList.addAll(learningItems);
     }
-    public Model remove(int i){
+    public static Model remove(int i){
         return globalCollectionList.remove(i);
     }
 }

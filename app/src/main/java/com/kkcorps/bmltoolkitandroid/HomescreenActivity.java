@@ -181,9 +181,9 @@ public class HomescreenActivity extends ActionBarActivity{
                     String path = FileUtils.getPath(this, uri);
                     Log.d(TAG, "File Path: " + path);
                     if(path!=null && path.endsWith(".xml")) {
-                        XmlParser.readXML(path);
-                        //TODO: Set Template Name
+                        String selectedTemplate = XmlParser.readXML(path);
                         Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
+                        intent.putExtra("SelectedTemplate",selectedTemplate);
                         startActivity(intent);
                     }else {
                         Toast.makeText(this,"Unsupported File Format", Toast.LENGTH_SHORT).show();
