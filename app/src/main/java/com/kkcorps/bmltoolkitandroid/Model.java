@@ -5,4 +5,5 @@ package com.kkcorps.bmltoolkitandroid;
  */
 public abstract class Model {
     public abstract String getName();
+    public abstract String getTitle();
 }

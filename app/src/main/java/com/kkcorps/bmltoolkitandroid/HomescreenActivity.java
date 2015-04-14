@@ -1,5 +1,6 @@
 package com.kkcorps.bmltoolkitandroid;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +15,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
@@ -32,6 +37,8 @@ public class HomescreenActivity extends ActionBarActivity{
     ActionBarDrawerToggle drawerToggle;
     private final int FILE_SELECT_REQUEST = 100;
     private String TAG = "HomeScreen";
+    Dialog dialog;
+    String[] templates = new String[]{"mLearning", "Flash Card"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +71,29 @@ public class HomescreenActivity extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 //XmlParser.readXML("assets/info_content.xml");
-                GlobalModelCollection.globalCollectionList = new ArrayList<Model>();
+                dialog = new android.app.Dialog(HomescreenActivity.this);
+                dialog.setContentView(R.layout.dialog_template_chooser);
+                dialog.setTitle("Template Chooser Dialog");
+                ListView templateListView = (ListView) dialog.findViewById(R.id.templateChooserList);
+                templateListView.setAdapter(new ArrayAdapter<String>(HomescreenActivity.this,R.layout.item_template_chooser,templates));
+                templateListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        GlobalModelCollection.globalCollectionList = new ArrayList<Model>();
+                        TextView selectedView = (TextView) view;
+                        Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
+                        intent.putExtra("SelectedTemplate",selectedView.getText().toString());
+                        //openApp(HomescreenActivity.this, "com.kkcorps.quiztemplate");
+                        dialog.hide();
+                        startActivity(intent);
+                    }
+                });
+
+                dialog.show();
+                /*GlobalModelCollection.globalCollectionList = new ArrayList<Model>();
                 Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
                 //openApp(HomescreenActivity.this, "com.kkcorps.quiztemplate");
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 

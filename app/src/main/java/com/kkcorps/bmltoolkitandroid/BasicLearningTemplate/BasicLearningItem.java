@@ -22,6 +22,7 @@ public class BasicLearningItem extends Model{
         return this.toString();
     }
 
+    @Override
     public String getTitle(){
         if(Title!=null || (!Title.isEmpty()) ){
             return Title;

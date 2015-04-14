@@ -21,6 +21,11 @@ public class FlashCardItem extends Model{
     public FlashCardItem() {
     }
 
+    @Override
+    public String getTitle() {
+        return Question;
+    }
+
     public String getQuestion() {
         return Question;
     }

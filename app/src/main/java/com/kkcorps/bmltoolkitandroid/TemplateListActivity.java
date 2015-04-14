@@ -59,6 +59,11 @@ public class TemplateListActivity extends ActionBarActivity {
     private int clickIndex;
     private String TempAPkName = null, projectName;
     private android.app.Dialog dialog;
+    private Constants.Templates TemplateName = Constants.Templates.MLEARNING;
+    private Class EditorActivity = BasicLearningEditor.class, GeneratorClass = BasicLearningGenerator.class,
+            Simulator = BasicLearningSimulatorCard.class;
+    private String TAG = "Template List Activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -68,8 +73,9 @@ public class TemplateListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_basic_learning);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        handleIntent(getIntent());
 
-        getSupportActionBar().setTitle("Basic Learning Items");
+        getSupportActionBar().setTitle(TemplateName.toString()+" Items");
 
         dragSortListView = (DragSortListView) findViewById(R.id.dragsortlistview);
         TextView textView = (TextView) findViewById(R.id.dsitem);
@@ -81,7 +87,7 @@ public class TemplateListActivity extends ActionBarActivity {
         for (int i = 0; i < itemsArray.size(); i++) {
             matrixCursor.newRow()
                     .add(i)
-                    .add(((BasicLearningItem) itemsArray.get(i)).getTitle());
+                    .add(itemsArray.get(i).getTitle());
         }
         cursorAdapter = new SimpleDragSortCursorAdapter(getApplicationContext(),R.layout.drag_sort_item_with_handle,matrixCursor,new String[]{"placeTitle"},new int[]{R.id.text},0);
         dragSortListener = new DragSortListView.DragSortListener() {
@@ -94,7 +100,7 @@ public class TemplateListActivity extends ActionBarActivity {
             public void drop(int i, int i2) {
                 if(i!=i2) {
 
-                    BasicLearningItem itemDragged = (BasicLearningItem) itemsArray.get(i);
+                    Model itemDragged = itemsArray.get(i);
                     itemsArray.set(i, itemsArray.get(i2));
                     itemsArray.set(i2, itemDragged);
                     GlobalModelCollection.globalCollectionList.clear();
@@ -117,8 +123,8 @@ public class TemplateListActivity extends ActionBarActivity {
         dragSortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("BasicLearningForm","Item no. "+String.valueOf(i)+" has been clicked");
-                Intent intent = new Intent(TemplateListActivity.this,BasicLearningEditor.class);
+                //Log.i("BasicLearningForm","Item no. "+String.valueOf(i)+" has been clicked");
+                Intent intent = new Intent(TemplateListActivity.this, EditorActivity);
                 intent.putExtra("clickIndex",i);
                 clickIndex = i;
                 intent.putExtra("requestCode", String.valueOf(Constants.EDIT_REQUEST_CODE) );
@@ -129,7 +135,7 @@ public class TemplateListActivity extends ActionBarActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TemplateListActivity.this,BasicLearningEditor.class);
+                Intent intent = new Intent(TemplateListActivity.this,EditorActivity);
                 intent.putExtra("requestCode", String.valueOf(Constants.ADD_REQUEST_CODE));
                 startActivityForResult(intent, Constants.ADD_REQUEST_CODE);
             }
@@ -138,7 +144,7 @@ public class TemplateListActivity extends ActionBarActivity {
         runSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TemplateListActivity.this,BasicLearningSimulatorCard.class);
+                Intent intent = new Intent(TemplateListActivity.this,Simulator);
                 startActivity(intent);
             }
         });
@@ -167,6 +173,22 @@ public class TemplateListActivity extends ActionBarActivity {
 
     }
 
+    private void handleIntent(Intent intent){
+        TemplateName = Constants.Templates.valueOf(intent.getStringExtra("SelectedTemplate").replace(" ","").toUpperCase());
+        switch (TemplateName){
+            case FLASHCARD:
+                EditorActivity = FlashCardEditor.class;
+                break;
+            case MLEARNING:
+                EditorActivity = BasicLearningEditor.class;
+                GeneratorClass = BasicLearningGenerator.class;
+                Simulator = BasicLearningSimulatorCard.class;
+
+                break;
+            default:
+                Log.i(TAG, "Unknown Template Selected");
+        }
+    }
     private void SignApk(){
         try {
             ZipSigner zipSigner = new ZipSigner();
@@ -218,7 +240,7 @@ public class TemplateListActivity extends ActionBarActivity {
         for (int j = 0; j < itemsArray.size(); j++) {
             matrixCursor.newRow()
                     .add(j)
-                    .add(((BasicLearningItem) itemsArray.get(j)).getTitle());
+                    .add(itemsArray.get(j).getTitle());
         }
         cursorAdapter.swapCursor(matrixCursor);
         cursorAdapter.notifyDataSetChanged();
@@ -241,6 +263,7 @@ public class TemplateListActivity extends ActionBarActivity {
                 //generateXMLData
 
                 try {
+                    //TODO: Change to abstract Generator Class
                     BasicLearningGenerator.writeXML("info_content.xml");
                     //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
                     File f = FileUtils.copyFileFromAsset(TemplateListActivity.this, "Apks/","InfoTemplateApp.apk");
@@ -261,8 +284,6 @@ public class TemplateListActivity extends ActionBarActivity {
 
                     e.printStackTrace();
                 }
-                //only signed apk implemented, data files have not been inserted
-
                 break;
 
             case R.id.action_save:
