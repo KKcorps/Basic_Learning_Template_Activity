@@ -24,6 +24,7 @@ import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningSimulato
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningGenerator;
 import com.kkcorps.bmltoolkitandroid.FlashCardTemplate.FlashCardEditor;
 import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
+import com.kkcorps.bmltoolkitandroid.Utils.XmlGenerator;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.SimpleDragSortCursorAdapter;
 
@@ -59,7 +60,7 @@ public class TemplateListActivity extends ActionBarActivity {
     private int clickIndex;
     private String TempAPkName = null, projectName;
     private android.app.Dialog dialog;
-    private Constants.Templates TemplateName = Constants.Templates.MLEARNING;
+    private Constants.Templates TemplateName = Constants.Templates.INFO;
     private Class EditorActivity = BasicLearningEditor.class, GeneratorClass = BasicLearningGenerator.class,
             Simulator = BasicLearningSimulatorCard.class;
     private String TAG = "Template List Activity";
@@ -165,7 +166,7 @@ public class TemplateListActivity extends ActionBarActivity {
                 if(projectName!=null && !projectName.equals("")){
                     Constants.PROJECT_NAME_TEMP = projectName+".xml";
                 }
-                BasicLearningGenerator.writeXML(Constants.PROJECT_NAME_TEMP);
+                XmlGenerator.writeXML(Constants.PROJECT_NAME_TEMP,TemplateName);
                 Toast.makeText(TemplateListActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
@@ -176,10 +177,10 @@ public class TemplateListActivity extends ActionBarActivity {
     private void handleIntent(Intent intent){
         TemplateName = Constants.Templates.valueOf(intent.getStringExtra("SelectedTemplate").replace(" ","").toUpperCase());
         switch (TemplateName){
-            case FLASHCARD:
+            case FLASHCARDS:
                 EditorActivity = FlashCardEditor.class;
                 break;
-            case MLEARNING:
+            case INFO:
                 EditorActivity = BasicLearningEditor.class;
                 GeneratorClass = BasicLearningGenerator.class;
                 Simulator = BasicLearningSimulatorCard.class;
@@ -264,7 +265,7 @@ public class TemplateListActivity extends ActionBarActivity {
 
                 try {
                     //TODO: Change to abstract Generator Class
-                    BasicLearningGenerator.writeXML("info_content.xml");
+                    XmlGenerator.writeXML(null,TemplateName);
                     //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
                     File f = FileUtils.copyFileFromAsset(TemplateListActivity.this, "Apks/","InfoTemplateApp.apk");
                     ZipInput zipInput = ZipInput.read(f.getAbsolutePath());

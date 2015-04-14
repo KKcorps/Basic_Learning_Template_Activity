@@ -38,7 +38,7 @@ public class HomescreenActivity extends ActionBarActivity{
     private final int FILE_SELECT_REQUEST = 100;
     private String TAG = "HomeScreen";
     Dialog dialog;
-    String[] templates = new String[]{"mLearning", "Flash Card"};
+    String[] templates = new String[]{"Info", "Flash Cards"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

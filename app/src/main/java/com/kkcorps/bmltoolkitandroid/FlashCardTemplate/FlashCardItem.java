@@ -50,6 +50,7 @@ public class FlashCardItem extends Model{
         Hint = hint;
     }
 
+    @Override
     public String getAuthor() {
         return Author;
     }
@@ -66,6 +67,7 @@ public class FlashCardItem extends Model{
         NumberOfItems = numberOfItems;
     }
 
+    @Override
     public String getCollectionTitle() {
         return CollectionTitle;
     }

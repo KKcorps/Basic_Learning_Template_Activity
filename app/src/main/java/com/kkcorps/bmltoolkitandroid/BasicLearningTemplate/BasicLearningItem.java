@@ -39,6 +39,7 @@ public class BasicLearningItem extends Model{
         }
     }
 
+    @Override
     public String getAuthor(){
         if(Author!=null || (!Author.isEmpty()) ){
             return Author;
@@ -47,6 +48,8 @@ public class BasicLearningItem extends Model{
         }
     }
 
+
+    @Override
     public String getCollectionTitle(){
         if(CollectionTitle!=null || (!CollectionTitle.isEmpty()) ){
             return CollectionTitle;
