@@ -1,5 +1,6 @@
 package com.kkcorps.bmltoolkitandroid.FlashCardTemplate;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,10 @@ public class FlashCardEditor extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashcard_editor);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Flash Card Editor");
+        setSupportActionBar(toolbar);
+
         imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -99,6 +105,9 @@ public class FlashCardEditor extends ActionBarActivity{
                 }else{
                     GlobalModelCollection.globalCollectionList.add(flashCardItem);
                 }
+
+                setResult(Activity.RESULT_OK);
+                finish();
                 }
         });
     }
@@ -172,6 +181,7 @@ public class FlashCardEditor extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_general, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

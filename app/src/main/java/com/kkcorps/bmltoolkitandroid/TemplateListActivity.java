@@ -75,7 +75,7 @@ public class TemplateListActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         handleIntent(getIntent());
 
-        getSupportActionBar().setTitle(TemplateName.toString()+" Items");
+        getSupportActionBar().setTitle(TemplateName.toString().toLowerCase()+" Items");
 
         dragSortListView = (DragSortListView) findViewById(R.id.dragsortlistview);
         TextView textView = (TextView) findViewById(R.id.dsitem);
