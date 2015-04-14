@@ -23,6 +23,7 @@ import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningItem;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningSimulatorCard;
 import com.kkcorps.bmltoolkitandroid.BasicLearningTemplate.BasicLearningGenerator;
 import com.kkcorps.bmltoolkitandroid.FlashCardTemplate.FlashCardEditor;
+import com.kkcorps.bmltoolkitandroid.FlashCardTemplate.FlashCardSimulator;
 import com.kkcorps.bmltoolkitandroid.Utils.FileUtils;
 import com.kkcorps.bmltoolkitandroid.Utils.XmlGenerator;
 import com.mobeta.android.dslv.DragSortListView;
@@ -167,7 +168,7 @@ public class TemplateListActivity extends ActionBarActivity {
                 if(projectName!=null && !projectName.equals("")){
                     Constants.PROJECT_NAME_TEMP = projectName+".xml";
                 }
-                XmlGenerator.writeXML(Constants.PROJECT_NAME_TEMP,TemplateName);
+                XmlGenerator.writeXML(Constants.PROJECT_NAME_TEMP, TemplateName);
                 Toast.makeText(TemplateListActivity.this,"Project saved at "+Constants.DATA_BASE_DIRECTORY+"assets/"+Constants.PROJECT_NAME_TEMP,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
@@ -180,6 +181,7 @@ public class TemplateListActivity extends ActionBarActivity {
         switch (TemplateName){
             case FLASHCARDS:
                 EditorActivity = FlashCardEditor.class;
+                Simulator = FlashCardSimulator.class;
                 TemplateApkName = "FlashCardsTemplateApp";
                 break;
             case INFO:

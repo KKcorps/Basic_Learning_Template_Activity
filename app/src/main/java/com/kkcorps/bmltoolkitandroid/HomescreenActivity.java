@@ -182,6 +182,7 @@ public class HomescreenActivity extends ActionBarActivity{
                     Log.d(TAG, "File Path: " + path);
                     if(path!=null && path.endsWith(".xml")) {
                         XmlParser.readXML(path);
+                        //TODO: Set Template Name
                         Intent intent = new Intent(HomescreenActivity.this, TemplateListActivity.class);
                         startActivity(intent);
                     }else {
