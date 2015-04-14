@@ -14,9 +14,10 @@ and
 Currently following features are being implemented:
 <ul>
     <li>Flash Card Template Simulator</li>
-    <li>Multiple Template support for Load Project</li>
     <li>UI Improvements</li>
+    <li>Network Factory</li>
     <li>Screen Recorder</li>
+    <li>Localisation</li>
 </ul>
 
 The issues concerning the app are also being fixed as the work is progressing.
