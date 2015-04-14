@@ -61,7 +61,8 @@ public class TemplateListActivity extends ActionBarActivity {
     private String TempAPkName = null, projectName;
     private android.app.Dialog dialog;
     private Constants.Templates TemplateName = Constants.Templates.INFO;
-    private Class EditorActivity = BasicLearningEditor.class, GeneratorClass = BasicLearningGenerator.class,
+    String TemplateApkName = "InfoTemplateApp";
+    private Class EditorActivity = BasicLearningEditor.class,
             Simulator = BasicLearningSimulatorCard.class;
     private String TAG = "Template List Activity";
 
@@ -179,12 +180,12 @@ public class TemplateListActivity extends ActionBarActivity {
         switch (TemplateName){
             case FLASHCARDS:
                 EditorActivity = FlashCardEditor.class;
+                TemplateApkName = "FlashCardsTemplateApp";
                 break;
             case INFO:
                 EditorActivity = BasicLearningEditor.class;
-                GeneratorClass = BasicLearningGenerator.class;
                 Simulator = BasicLearningSimulatorCard.class;
-
+                TemplateApkName = "InfoTemplateApp";
                 break;
             default:
                 Log.i(TAG, "Unknown Template Selected");
@@ -200,8 +201,8 @@ public class TemplateListActivity extends ActionBarActivity {
             PrivateKey privateKey = zipSigner.readPrivateKey(privateKeyUrl,null);
             zipSigner.setKeys("KKcorps",certificate,privateKey,null);
             zipSigner.setKeymode("testkey");
-            zipSigner.signZip(getCacheDir()+"/InfoTemplateAppTemp.apk", Constants.DATA_BASE_DIRECTORY+"InfoTemplateAppSigned.apk");
-            Toast.makeText(this, "Signed apk generated at"+ Constants.DATA_BASE_DIRECTORY+ "InfoTemplateAppSigned.apk",Toast.LENGTH_SHORT).show();
+            zipSigner.signZip(getCacheDir()+"/Temp.apk", Constants.DATA_BASE_DIRECTORY+TemplateApkName+"Signed.apk");
+            Toast.makeText(this, "Signed apk generated at"+ Constants.DATA_BASE_DIRECTORY+ TemplateApkName+"Signed.apk",Toast.LENGTH_SHORT).show();
         }catch (Throwable e){
             Toast.makeText(this, "Apk not Signed Properly",Toast.LENGTH_SHORT).show();
             
@@ -264,14 +265,13 @@ public class TemplateListActivity extends ActionBarActivity {
                 //generateXMLData
 
                 try {
-                    //TODO: Change to abstract Generator Class
-                    XmlGenerator.writeXML(null,TemplateName);
-                    //Process p = Runtime.getRuntime().exec("zip -m -r " + Constants.DATA_BASE_DIRECTORY + "/QuizTemplateApp.apk /assets");
-                    File f = FileUtils.copyFileFromAsset(TemplateListActivity.this, "Apks/","InfoTemplateApp.apk");
+                    File xmlFile = XmlGenerator.writeXML(null,TemplateName);
+                    File f = FileUtils.copyFileFromAsset(TemplateListActivity.this, "Apks/",TemplateApkName+".apk");
                     ZipInput zipInput = ZipInput.read(f.getAbsolutePath());
 
-                    ZioEntry zioEntry = new ZioEntry("/assets/info_content.xml",Constants.DATA_BASE_DIRECTORY+"assets/info_content.xml");
-                    FileOutputStream outputStream = new FileOutputStream(getCacheDir()+"/InfoTemplateAppTemp.apk");
+                    ZioEntry zioEntry = new ZioEntry("/assets/"+xmlFile.getName(),xmlFile.getAbsolutePath());
+                    //TODO: Delete Temporary Apk File
+                    FileOutputStream outputStream = new FileOutputStream(getCacheDir()+"/Temp.apk");
                     ZipOutput zipOutput =  new ZipOutput(outputStream);
                     for(ZioEntry entry : zipInput.getEntries().values()){
                         zipOutput.write(entry);

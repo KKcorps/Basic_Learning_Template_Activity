@@ -23,7 +23,7 @@ public class XmlGenerator {
 
     static boolean isFileNameSet = true;
 
-    public static void writeXML(String fileName, Constants.Templates templates){
+    public static File writeXML(String fileName, Constants.Templates templates){
         if(fileName==null || fileName.isEmpty()){
             isFileNameSet = false;
         }
@@ -50,11 +50,12 @@ public class XmlGenerator {
             }
 
             writeXmlFooter(xmlSerializer);
-            writeXMLToFile(stringWriter.toString(), fileName);
+            return writeXMLToFile(stringWriter.toString(), fileName);
 
         }catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
     public static void writeXMLHeaders(XmlSerializer xmlSerializer, String templateName) throws IOException{
             xmlSerializer.startDocument("UTF-8", true);
@@ -82,7 +83,7 @@ public class XmlGenerator {
         xmlSerializer.endTag("","buildmlearn_application");
         xmlSerializer.endDocument();
     }
-    public static void writeXMLToFile(String data, String fileName) {
+    public static File writeXMLToFile(String data, String fileName) {
         try {
             File xmlFile2 = new File(Constants.DATA_BASE_DIRECTORY+"/assets/");
             xmlFile2.mkdir();
@@ -91,9 +92,11 @@ public class XmlGenerator {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(xmlFile));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
+            return xmlFile;
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+        return null;
     }
 }
