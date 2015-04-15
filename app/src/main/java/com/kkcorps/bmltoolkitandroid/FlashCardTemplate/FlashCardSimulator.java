@@ -1,5 +1,6 @@
 package com.kkcorps.bmltoolkitandroid.FlashCardTemplate;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,13 +30,16 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 /**
  * Created by root on 14/4/15.
  */
-public class FlashCardSimulator extends  ActionBarActivity{
+public class FlashCardSimulator extends  ActionBarActivity implements Animation.AnimationListener{
     ImageView questionView;
     ButtonRectangle previous,next,flip;
     TextView questionNumber,answerView;
     int currentIndex=0, numberOfQuestions;
     boolean isAnswerVisible = false;
+    View currentView;
     RelativeLayout rootLayout;
+    private Animation fromMiddle, toMiddle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +49,11 @@ public class FlashCardSimulator extends  ActionBarActivity{
         toolbar.setTitle("Flash Card Simulator");
         setSupportActionBar(toolbar);
 
+        fromMiddle = AnimationUtils.loadAnimation(this, R.anim.flip_from_middle);
+        toMiddle = AnimationUtils.loadAnimation(this, R.anim.flip_to_middle);
+        fromMiddle.setAnimationListener(this);
+        toMiddle.setAnimationListener(this);
+
         numberOfQuestions = GlobalModelCollection.size();
 
         questionNumber = (TextView) findViewById(R.id.questionNumber);
@@ -51,6 +62,8 @@ public class FlashCardSimulator extends  ActionBarActivity{
         previous = (ButtonRectangle) findViewById(R.id.previousButton);
         next  = (ButtonRectangle) findViewById(R.id.nextButton);
         flip = (ButtonRectangle) findViewById(R.id.flipButton);
+
+        currentView = questionView;
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,15 +80,9 @@ public class FlashCardSimulator extends  ActionBarActivity{
         flip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isAnswerVisible){
-                    questionView.setVisibility(View.GONE);
-                    answerView.setVisibility(View.VISIBLE);
-                    isAnswerVisible = true;
-                }else {
-                    questionView.setVisibility(View.VISIBLE);
-                    answerView.setVisibility(View.GONE);
-                    isAnswerVisible = false;
-                }
+                currentView.clearAnimation();
+                currentView.setAnimation(toMiddle);
+                currentView.startAnimation(toMiddle);
             }
         });
 
@@ -164,6 +171,38 @@ public class FlashCardSimulator extends  ActionBarActivity{
             currentIndex = index;
         }
     }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation == toMiddle) {
+            if (!isAnswerVisible) {
+                questionView.setVisibility(View.GONE);
+                answerView.setVisibility(View.VISIBLE);
+                isAnswerVisible = true;
+                currentView = answerView;
+            } else {
+                questionView.setVisibility(View.VISIBLE);
+                answerView.setVisibility(View.GONE);
+                isAnswerVisible = false;
+                currentView = questionView;
+            }
+
+            currentView.clearAnimation();
+            currentView.setAnimation(fromMiddle);
+            currentView.startAnimation(fromMiddle);
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
