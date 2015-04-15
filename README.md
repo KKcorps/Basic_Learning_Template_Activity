@@ -14,6 +14,7 @@ and
 Currently following features are being implemented:
 <ul>
     <li>Flash Card Template Simulator</li>
+    <li>Custom File Browser</li>
     <li>UI Improvements</li>
     <li>Network Factory</li>
     <li>Screen Recorder</li>
