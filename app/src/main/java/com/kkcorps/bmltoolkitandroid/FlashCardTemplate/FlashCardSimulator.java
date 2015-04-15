@@ -38,7 +38,7 @@ public class FlashCardSimulator extends  ActionBarActivity implements Animation.
     boolean isAnswerVisible = false;
     View currentView;
     RelativeLayout rootLayout;
-    private Animation fromMiddle, toMiddle;
+    private Animation fromMiddle, toMiddle, leftIn, leftOut, rightIn, rightOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,11 @@ public class FlashCardSimulator extends  ActionBarActivity implements Animation.
         toMiddle = AnimationUtils.loadAnimation(this, R.anim.flip_to_middle);
         fromMiddle.setAnimationListener(this);
         toMiddle.setAnimationListener(this);
+
+        leftIn = AnimationUtils.loadAnimation(this, R.anim.left_in);
+        leftOut = AnimationUtils.loadAnimation(this, R.anim.left_out);
+        rightIn = AnimationUtils.loadAnimation(this, R.anim.right_in);
+        rightOut = AnimationUtils.loadAnimation(this, R.anim.right_out);
 
         numberOfQuestions = GlobalModelCollection.size();
 
@@ -80,6 +85,7 @@ public class FlashCardSimulator extends  ActionBarActivity implements Animation.
         flip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 currentView.clearAnimation();
                 currentView.setAnimation(toMiddle);
                 currentView.startAnimation(toMiddle);
