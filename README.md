@@ -1,5 +1,8 @@
 # BuildmLearn Droid Toolkit
-This is a basic implementation of BuildmLearn Toolkit on Android Platform.The app incorporates basic material design elements
+This is a basic implementation of BuildmLearn Toolkit on Android Platform.
+The project has been implemented on [Android Studio 0.8.9](https://dl.google.com/dl/android/studio/ide-zips/0.8.9/android-studio-ide-135.1404660-linux.zip) using Gradle 0.12.+. The gradle file are not comptabile with studio 1.+ and so will give errors.THe project will soon be updated to newer gradle versions.
+
+The app incorporates basic material design elements
 and guidelines of the same have been followed to extent they are compatible with Pre-Lollipop devices.
 
 Following features have been completed uptil now:
